@@ -5,4 +5,4 @@ Ce repository contient l'ensemble des éléments pour le concours de développem
 
 Rendez-vous sur http://editor.swagger.io/#/ pour générer le code serveur qui absorbera les 100 000 messages.
 
-![Raspberry](/img/raspberry.jpeg)
+![Raspberry](./img/raspberry.jpeg)
