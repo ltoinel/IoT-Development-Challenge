@@ -1,4 +1,4 @@
----
+ï»¿---
 swagger: '2.0'
 
 ################################################################################
@@ -7,7 +7,7 @@ swagger: '2.0'
 info:
   version: "1.0"
   title: API IoT - Capgemini Development Challenge
-  description: Rendez-vous sur http://editor.swagger.io/ pour générer le code serveur
+  description: Rendez-vous sur http://editor.swagger.io/ pour gÃ©nÃ©rer le code serveur
   contact:
     name: Ludovic Toinel
     url: https://www.yammer.com/capgemini.com/#/Threads/show?threadId=682664973
@@ -35,17 +35,17 @@ paths:
       description: Service d'acquisition de messages de capteurs
       responses:
         200:
-          description: Réception du message en succès
+          description: RÃ©ception du message en succÃ©s
       parameters:
         - name: message
-          description: Message transmis par le capteur connecté
+          description: Message transmis par le capteur connectÃ©
           in: body
           schema:
             $ref: '#/definitions/message'
             
   /messages/synthesis:
     get:
-      description: Service fournissant une synthèse des données sur les 60 dernières minutes
+      description: Service fournissant une synthÃ¨se des donnÃ©es sur les 60 derniÃ¨res minutes
       responses:
         200:
           description: successful operation
@@ -60,7 +60,7 @@ definitions:
     properties:
       id:
         type: string
-        description: Identifiant unique du message envoyé par le capteur
+        description: Identifiant unique du message envoyÃ© par le capteur
       timestamp:
         type:  string
         format: date-time
@@ -68,7 +68,7 @@ definitions:
       sensorType:
         type: integer
         format: int32
-        description: Type de capteur à l'origine de l'emission du message
+        description: Type de capteur Ã  l'origine de l'emission du message
       value:
         type: integer
         format: int64
@@ -80,7 +80,7 @@ definitions:
       sensorType:
         type: integer
         format: int32
-        description: Type de capteur à l'origine de l'emission du message
+        description: Type de capteur Ã  l'origine de l'emission du message
       minValue:
         type: integer
         format: int64
@@ -92,4 +92,4 @@ definitions:
       mediumValue:
         type: integer
         format: int64
-        description: Valeur moyenne des données transmises par ce type de capteur
+        description: Valeur moyenne des donnÃ©es transmises par ce type de capteur
