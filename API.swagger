@@ -1,0 +1,95 @@
+---
+swagger: '2.0'
+
+################################################################################
+#                              API Information                                 #
+################################################################################
+info:
+  version: "1.0"
+  title: API IoT - Capgemini Development Challenge
+  description: Rendez-vous sur http://editor.swagger.io/ pour générer le code serveur
+  contact:
+    name: Ludovic Toinel
+    url: https://www.yammer.com/capgemini.com/#/Threads/show?threadId=682664973
+    email: ludovic.toinel@capgemini.com
+  
+# during dev, should point to your local machine
+host: 192.168.1.1
+# basePath prefixes all resource paths
+basePath: /
+#
+schemes:
+  # tip: remove http to make production-grade
+  - http
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+
+paths:
+ 
+  /messages:
+    post:
+      description: Service d'acquisition de messages de capteurs
+      responses:
+        200:
+          description: Réception du message en succès
+      parameters:
+        - name: message
+          description: Message transmis par le capteur connecté
+          in: body
+          schema:
+            $ref: '#/definitions/message'
+            
+  /messages/synthesis:
+    get:
+      description: Service fournissant une synthèse des données sur les 60 dernières minutes
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/synthesis'
+                   
+definitions:
+  message:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Identifiant unique du message envoyé par le capteur
+      timestamp:
+        type:  string
+        format: date-time
+        description: Horaire de la fabrication du message par le capteur
+      sensorType:
+        type: integer
+        format: int32
+        description: Type de capteur à l'origine de l'emission du message
+      value:
+        type: integer
+        format: int64
+        description: Valeur transmise par le capteur
+
+  synthesis:
+    type: object
+    properties:
+      sensorType:
+        type: integer
+        format: int32
+        description: Type de capteur à l'origine de l'emission du message
+      minValue:
+        type: integer
+        format: int64
+        description: Valeur minimum transmise par ce type de capteur
+      maxValue:
+        type: integer
+        format: int64
+        description: Valeur maximale transmise par ce capteur type de capteur
+      mediumValue:
+        type: integer
+        format: int64
+        description: Valeur moyenne des données transmises par ce type de capteur
