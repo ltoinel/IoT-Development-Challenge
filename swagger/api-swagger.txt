@@ -45,7 +45,7 @@ paths:
             
   /messages/synthesis:
     get:
-      description: Service fournissant une synthèse des données sur les 60 dernières minutes
+      description: Service fournissant une synthèse des données sur les 60 dernières minutes. L'objet "synthesis" retourné doit être unique par type de capteur.
       responses:
         200:
           description: successful operation
