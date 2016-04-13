@@ -7,7 +7,7 @@ swagger: '2.0'
 info:
   version: "1.0"
   title: API IoT - Capgemini Development Challenge
-  description: Rendez-vous sur http://editor.swagger.io/ pour générer le code serveur
+  description: Rendez-vous sur http://editor.swagger.io/ pour générer le code serveur. Le script d'injection Gatling séquencera écritures et lectures. 10 injecteurs simultanés injecterons 10 000 messages chacuns, soit 100 000 messages au total.
   contact:
     name: Ludovic Toinel
     url: https://www.yammer.com/capgemini.com/#/Threads/show?threadId=682664973
@@ -29,26 +29,25 @@ produces:
   - application/json
 
 paths:
- 
   /messages:
     post:
-      description: Service d'acquisition de messages de capteurs
+      description: Service d'acquisition de messages provenant d'objets connectés
       responses:
         200:
-          description: Réception du message en succés
+          description: Réception du message en succés.
       parameters:
         - name: message
-          description: Message transmis par le capteur connecté
+          description: Message transmis par l'objet connecté.
           in: body
           schema:
             $ref: '#/definitions/message'
             
   /messages/synthesis:
     get:
-      description: Service fournissant une synthèse des données sur les 60 dernières minutes. L'objet "synthesis" retourné doit être unique par type de capteur.
+      description: Service fournissant une synthèse des données sur les 60 dernières minutes, minute en cours incluse. L'objet "synthesis" retourné doit être unique par type de capteur. 
       responses:
         200:
-          description: successful operation
+          description: successful operation.
           schema:
             type: array
             items:
@@ -60,19 +59,19 @@ definitions:
     properties:
       id:
         type: string
-        description: Identifiant unique du message envoyé par le capteur
+        description: Identifiant unique du message envoyé par le capteur, un controle des doublons doit être effectué (max 64 chars).
       timestamp:
         type:  string
         format: date-time
-        description: Horaire de la fabrication du message par le capteur
+        description: Horaire de la fabrication du message par le capteur (format RFC3339, exemple :  1985-04-12T23:20:50.52Z). Ce timestamp fait fois lors calcul de la synthèse.
       sensorType:
         type: integer
         format: int32
-        description: Type de capteur à l'origine de l'emission du message
+        description: Type de capteur à l'origine de l'emission du message.
       value:
         type: integer
         format: int64
-        description: Valeur transmise par le capteur
+        description: Valeur transmise par le capteur.
 
   synthesis:
     type: object
@@ -80,16 +79,16 @@ definitions:
       sensorType:
         type: integer
         format: int32
-        description: Type de capteur à l'origine de l'emission du message
+        description: Type de capteur à l'origine de l'emission du message.
       minValue:
         type: integer
         format: int64
-        description: Valeur minimum transmise par ce type de capteur
+        description: Valeur minimum transmise par ce type de capteur.
       maxValue:
         type: integer
         format: int64
-        description: Valeur maximale transmise par ce capteur type de capteur
+        description: Valeur maximale transmise par ce capteur type de capteur.
       mediumValue:
         type: integer
         format: int64
-        description: Valeur moyenne des données transmises par ce type de capteur
+        description: Valeur moyenne des données transmises par ce type de capteur.
