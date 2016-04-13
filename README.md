@@ -10,7 +10,7 @@ Rendez-vous sur http://editor.swagger.io/#/ pour générer le code serveur qui a
 
 # FAQ
 
-###### Quel niveau de persistance est attendu ?  Doit-on, à minima, persister l’ensemble des données reçues sur la SD ? 
+###### Quel niveau de persistance est attendu ?  Doit-on, à minima, persister l’ensemble des données reçues sur la carte SD ? 
 
 Oui. L'ensemble des données reçues doivent être stockées sur la carte SD. 
 
@@ -60,7 +60,7 @@ Le scénario de test enchainera écritures et lectures de synthèses. 10 injecte
 
 Bonne remarque, c’est effectivement pertinent de rendre obligatoire la vérification de l’unicité de l’identifiant. Un second message portant le même identifiant qu’un identifiant préalablement reçu ne doit pas être pris en compte par la gateway.
 
-###### Est ce que /messages/synthesis doit renvoyer un tableau avec une entrée "synthesis" par type de capteur ?
+###### Est-ce que /messages/synthesis doit renvoyer un tableau avec une entrée "synthesis" par type de capteur ?
 
 Oui, une entrée "synthesis" doit être retournée par type de capteur.
 
@@ -68,5 +68,5 @@ Oui, une entrée "synthesis" doit être retournée par type de capteur.
 
 Le Timestamp du message fait foi. La date de prise en compte de la demande de synthèse - 60 minutes.
 
-###### Combien de type de capteurs sont à gérer ?
+###### Combien de types de capteurs sont à gérer ?
 int32 ;-) 
