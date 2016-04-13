@@ -39,7 +39,7 @@ Oui, à vous de choisir ! Soyez audacieux !
 
 Oui, on va essayer de mettre une page Web pour partager les résultats au fur et à mesure de l'avancement des équipes. Le script Gatling postera les résultats quand des tirs seront effectués.
 
-#### Y-a-t-il une tolérance sur le choix de la carte SD pour la livraison ? 
+#### Y-a-t'il une tolérance sur le choix de la carte SD pour la livraison ? 
 
 Nous utiliserons des cartes de bonne capacité en lecture / écriture. La finale sera réalisée sur la même carte pour plus d’équité.
 Les tests intermédiaires peuvent être réalisés sur vos propres cartes si vous le souhaitez.
