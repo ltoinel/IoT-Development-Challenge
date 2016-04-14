@@ -63,7 +63,7 @@ definitions:
       timestamp:
         type:  string
         format: date-time
-        description: Horaire de la fabrication du message par le capteur (format RFC3339, exemple :  1985-04-12T23:20:50.52Z). Ce timestamp fait fois lors calcul de la synthèse.
+        description: Horaire de la fabrication du message par le capteur (format RFC3339). Ce timestamp fait fois lors calcul de la synthèse.
       sensorType:
         type: integer
         format: int32
