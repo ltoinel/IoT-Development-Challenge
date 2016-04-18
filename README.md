@@ -70,3 +70,6 @@ Le Timestamp du message fait foi. La date de prise en compte de la demande de sy
 
 ###### Combien de types de capteurs sont à gérer ?
 int32 ;-) 
+
+###### Quel est le niveau de précision à gérer sur la moyenne dans le service de synthèse ? 
+Deux décimales après le '.' seront suffisantes.
