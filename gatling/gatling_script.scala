@@ -71,7 +71,7 @@ class Injections extends Simulation {
 
 	//the simulation start in nano seconds
 	var simulationStartTime=0.0
-	the simulation end in nano seconds
+	//the simulation end in nano seconds
 	var simulationEndTime=0.0
 	//the name of your team
 	var teamName=""
