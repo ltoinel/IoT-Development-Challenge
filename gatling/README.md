@@ -6,7 +6,7 @@ Ce script en scala/DSL inject 100 000 valeurs aléatoire vers un micro service p
 
 ##Download
 
-[Gatling](http://gatling.io/#/download)
+[Gatling Download](http://gatling.io/#/download)
 
 ##Installation
 
@@ -25,8 +25,10 @@ vous avez qu'à lancer le gatling.bat sur Windows ou gatling.sh et lancer la cla
 ##Team
 
 [Ludovic Toinel](https://github.com/ltoinel)
+
 [Benabachir Issam](https://github.com/IsBena)
-[Pavageau Stanislas]
+
+Pavageau Stanislas
 
 
 
