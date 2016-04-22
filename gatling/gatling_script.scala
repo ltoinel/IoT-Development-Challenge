@@ -125,9 +125,9 @@ class Injections extends Simulation {
 				exec(http("request_1")
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
-												  "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-												  "sensorType":"1",
-												  "value":""""+generateNum(0)+"""" }""")).asJSON
+						                      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
+								      "sensorType":"1",
+								      "value":""""+generateNum(0)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -138,9 +138,9 @@ class Injections extends Simulation {
 				exec(http("request_2")
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
-												  "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-												  "sensorType":"2",
-												  "value":""""+generateNum(1)+"""" }""")).asJSON
+								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
+								      "sensorType":"2",
+								      "value":""""+generateNum(1)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -151,9 +151,9 @@ class Injections extends Simulation {
 				exec(http("request_3")
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
-												  "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-												  "sensorType":"3",
-												  "value":""""+generateNum(2)+"""" }""")).asJSON
+								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
+								      "sensorType":"3",
+								      "value":""""+generateNum(2)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -166,9 +166,9 @@ class Injections extends Simulation {
 				exec(http("request_4")
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
-												  "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-												  "sensorType":"4",
-												  "value":""""+generateNum(3)+"""" }""")).asJSON
+								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
+								      "sensorType":"4",
+								      "value":""""+generateNum(3)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -180,9 +180,9 @@ class Injections extends Simulation {
 				exec(http("request_5")
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
-												  "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-												  "sensorType":"5",
-												  "value":""""+generateNum(4)+"""" }""")).asJSON
+								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
+								      "sensorType":"5",
+								      "value":""""+generateNum(4)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -193,9 +193,9 @@ class Injections extends Simulation {
 				exec(http("request_6")
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
-												  "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-												  "sensorType":"6",
-												  "value":""""+generateNum(5)+"""" }""")).asJSON
+								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
+								      "sensorType":"6",
+								      "value":""""+generateNum(5)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -206,9 +206,9 @@ class Injections extends Simulation {
 				exec(http("request_7")
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
-												  "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-												  "sensorType":"7",
-												  "value":""""+generateNum(6)+"""" }""")).asJSON
+								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
+								      "sensorType":"7",
+								      "value":""""+generateNum(6)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -219,9 +219,9 @@ class Injections extends Simulation {
 				exec(http("request_8")
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
-												  "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-												  "sensorType":"8",
-												  "value":""""+generateNum(7)+"""" }""")).asJSON
+								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
+								      "sensorType":"8",
+								      "value":""""+generateNum(7)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -233,9 +233,9 @@ class Injections extends Simulation {
 				exec(http("request_9")
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
-												  "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-												  "sensorType":"9",
-												  "value":""""+generateNum(8)+"""" }""")).asJSON
+								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
+								      "sensorType":"9",
+								      "value":""""+generateNum(8)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -246,9 +246,9 @@ class Injections extends Simulation {
 				exec(http("request_10")
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
-												  "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-												  "sensorType":"10",
-												  "value":""""+generateNum(9)+"""" }""")).asJSON
+								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
+								      "sensorType":"10",
+								      "value":""""+generateNum(9)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)								
@@ -310,13 +310,15 @@ class Injections extends Simulation {
 
   			val SynthesisJson = scala.util.parsing.json.JSON.parseFull(result.mkString)
 
-	 		if(show(SynthesisJson,"minValue")==minValues(a-1) && show(SynthesisJson,"maxValue")==maxValues(a-1) && show(SynthesisJson,"mediumValue")==avrgeValues(a-1) ){
+	 		if(show(SynthesisJson,"minValue")==minValues(a-1) && 
+	 		   show(SynthesisJson,"maxValue")==maxValues(a-1) && 
+	 		   show(SynthesisJson,"mediumValue")==avrgeValues(a-1) ){
 
 	 				println(show(SynthesisJson,"sensorType")+"results are valid")
 	 				
 	 		}else{
-	 			println(show(SynthesisJson,"sensorType")+"les résultats ne sont pas valide!!!!")
-	 			resultatValid=false
+	 				println(show(SynthesisJson,"sensorType")+"les résultats ne sont pas valide!!!!")
+	 				resultatValid=false
 
 	 		}
 	 		
@@ -325,27 +327,27 @@ class Injections extends Simulation {
 		//if the results are valid they are sent to the leaderBoard
 		if(resultatValid==true){
 
-				println("Temp d'execution:"+time+" Equipe:"+teamName+" rattachement:"+teameLocation)
+			println("Temp d'execution:"+time+" Equipe:"+teamName+" rattachement:"+teameLocation)
 
-  				val password=scala.io.StdIn.readLine("entrez le mot de pass Pour envoyer le resultat?: ")
+  			val password=scala.io.StdIn.readLine("entrez le mot de pass Pour envoyer le resultat?: ")
         	 	
         	 	val urlLeaderBoard="I should put my leaderboard here to be changed for the people to be able to send their results"
 
         	 	val post = new HttpPost(urlLeaderBoard)
         		val client = HttpClientBuilder.create().build()
         		
-                post.setEntity(new StringEntity("""{"teamName":""""+teamName+"""",
-                									"time":""""+timeOfSimulation+"""",
-                									"location":""""+teameLocation+"""",
-                									"password":""""+password+""""}"""))
+                	post.setEntity(new StringEntity("""{"teamName":""""+teamName+"""",
+                					    "time":""""+timeOfSimulation+"""",
+                					    "location":""""+teameLocation+"""",
+                					    "password":""""+password+""""}"""))
 
-                val response = client.execute(post)
+                	val response = client.execute(post)
 
-                if(response.getStatusLine().getStatusCode()==200){
-                	println("votre résultat est envoyé, n'oubliez pas de regarder le leaderBoard pour voir votre classement...")
-                }else{
-                	println("L'envoi a échoué!!! le résultat n'a pas été envoyé au leaderboard!!!")
-                }
+        		  if(response.getStatusLine().getStatusCode()==200){
+                			println("votre résultat est envoyé, n'oubliez pas de regarder le leaderBoard pour voir votre classement...")
+        		 }else{
+                			println("L'envoi a échoué!!! le résultat n'a pas été envoyé au leaderboard!!!")
+        		 }
 
 		}else{
 			println("votre synthése n'est pas valide, vous ne pouvez pas envoyer vos résultats!")
