@@ -48,7 +48,7 @@ class Injections extends Simulation {
 	//this array contains the average of all the values sent to each sensorType
 	var avrgeValues = Array(0,0,0,0,0,0,0,0,0,0)
 	//the number of messages sent by a single injector 
-	var numberOfMsgs = 10 000
+	var numberOfMsgs = 10000
 
 
 	val httpProtocol = http
