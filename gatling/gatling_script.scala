@@ -331,7 +331,7 @@ class Injections extends Simulation {
 
 			println("Temp d'execution:"+timeOfSimulation+" Equipe:"+teamName+" rattachement:"+teameLocation)
 
-  			val password=scala.io.StdIn.readLine("entrez le mot de pass Pour envoyer le resultat?: ")
+  			val password=scala.io.StdIn.readLine("entrez le mot de passe pour valider le résultat?: ")
         	 	
         	 	val urlLeaderBoard="I should put my leaderboard here to be changed for the people to be able to send their results"
 
