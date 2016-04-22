@@ -2,7 +2,7 @@
 
 ## Synopsis
 
-Ce script en scala/DSL inject 100 000 valeurs aléatoire vers un micro service par le biais de 10 injecteurs, de façon concurente  
+Ce script en scala/DSL inject 100 000 valeurs aléatoires vers un micro service par le biais de 10 injecteurs, de façon concurente  
 
 ##Download
 
