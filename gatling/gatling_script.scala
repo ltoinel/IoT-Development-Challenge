@@ -326,7 +326,7 @@ class Injections extends Simulation {
 	 		
   		}
   		
-		//if the results are valid they are sent to the leaderBoard
+		//if the results are valid they are sent to the leaderBoard(until we deploy our server you should comment this section)
 		if(resultatValid==true){
 
 			println("Temp d'execution:"+timeOfSimulation+" Equipe:"+teamName+" rattachement:"+teameLocation)
