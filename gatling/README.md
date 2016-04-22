@@ -26,7 +26,7 @@ le script a besoin de certaines librairies pour pouvoir envoyer les résultats d
 - Si vous voulez lancer le script de votr shell sur Windows :gatling.sh -s Injections 
 
 
-##### N'oublier d'ajouter le nom de votre equipe (TeamName)et de votre rattachement(TeamLocation) sur le script avant de le compiler/executer
+##### N'oublier pas d'ajouter le nom de votre equipe (TeamName)et de votre rattachement(TeamLocation) sur le script avant de le compiler/executer
 
 [Documentation](http://gatling.io/docs/2.0.0-RC2/index.html)
 
