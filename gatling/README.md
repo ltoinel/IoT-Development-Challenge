@@ -14,7 +14,7 @@ Ce script en scala/DSL inject 100 000 valeurs aléatoire vers un micro service p
 
 le script a besoin de certaines librairies pour pouvoir envoyer les résultats des tests:
 
--Téléchargez les fichier jar de [HttpComponents](https://hc.apache.org/downloads.cgi)
+-Téléchargez les fichiers jar de [HttpComponents](https://hc.apache.org/downloads.cgi)
 
 -Ajoutez les au dossier lib de votre gatling
 
