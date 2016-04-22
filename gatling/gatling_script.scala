@@ -108,9 +108,11 @@ class Injections extends Simulation {
   	* it retreives the name of the team,the location and the start time of the simulation 
   	*/
 	before {
-    		println("la simulation est sur ​​le point de commencer...")
-    		teamName=scala.io.StdIn.readLine("Entrez le nom de votre equipe: ")
-    		teameLocation=scala.io.StdIn.readLine("Entrez votre rattachement: ")
+    		println("la simulation est sur le point de commencer...")
+    		//add your team name here this name will appear on the leaderBoard
+    		teamName=""
+    		//add your location here, it will also appear on the leaderBoard
+    		teameLocation=""
     		simulationStartTime=System.nanoTime()		
   	}
 
@@ -327,7 +329,7 @@ class Injections extends Simulation {
 		//if the results are valid they are sent to the leaderBoard
 		if(resultatValid==true){
 
-			println("Temp d'execution:"+time+" Equipe:"+teamName+" rattachement:"+teameLocation)
+			println("Temp d'execution:"+timeOfSimulation+" Equipe:"+teamName+" rattachement:"+teameLocation)
 
   			val password=scala.io.StdIn.readLine("entrez le mot de pass Pour envoyer le resultat?: ")
         	 	
