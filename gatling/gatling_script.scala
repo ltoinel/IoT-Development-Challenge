@@ -61,7 +61,7 @@ class Injections extends Simulation {
 		"Upgrade-Insecure-Requests" -> "1")
 
     //this is the adress of the http post you should put your local server
-    var url="you should put the adress of your server here"+"/messages"
+    var url="192.168.1.1/messages"
 	
 
 	//the Date formatter who makes the date on the DateTime RFC3339
@@ -82,7 +82,7 @@ class Injections extends Simulation {
 
 	//unique Id generator for each message sent
 	def generateId():String={
-		UUID.randomUUID().toString()+UUID.randomUUID().toString()
+		UUID.randomUUID().toString().replaceAll("-", "")+UUID.randomUUID().toString().replaceAll("-", "")
 	}
     
     //generate random numbers and keep the min the max and the average 
@@ -128,7 +128,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 						                      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"1",
+								      "sensorType":1,
 								      "value":""""+generateNum(0)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -141,7 +141,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"2",
+								      "sensorType":2,
 								      "value":""""+generateNum(1)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -154,7 +154,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"3",
+								      "sensorType":3,
 								      "value":""""+generateNum(2)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -169,7 +169,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"4",
+								      "sensorType":4,
 								      "value":""""+generateNum(3)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -183,7 +183,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"5",
+								      "sensorType":5,
 								      "value":""""+generateNum(4)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -196,7 +196,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"6",
+								      "sensorType":6,
 								      "value":""""+generateNum(5)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -209,7 +209,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"7",
+								      "sensorType":7,
 								      "value":""""+generateNum(6)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -222,7 +222,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"8",
+								      "sensorType":8,
 								      "value":""""+generateNum(7)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -236,7 +236,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"9",
+								      "sensorType":9,
 								      "value":""""+generateNum(8)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -249,7 +249,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"10",
+								      "sensorType":10,
 								      "value":""""+generateNum(9)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -306,7 +306,7 @@ class Injections extends Simulation {
   		for( a <- 1 to 10){
   			
   			//this is the url of the synthesis get method that sends a synthesis object for each sensor Type server 
-  			val urlSyhtesis ="yourserver" +"/synthesis?sensorType="+a.toString()
+  			val urlSyhtesis ="192.168.1.1/synthesis?sensorType="+a.toString()
   			
   			val result = scala.io.Source.fromURL(urlSyhtesis)
 
