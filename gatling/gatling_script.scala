@@ -60,7 +60,7 @@ class Injections extends Simulation {
 		"Accept" -> "text/html; charset=UTF-8 ",
 		"Upgrade-Insecure-Requests" -> "1")
 
-    //this is the adress of the http post you should put your local server
+    //this is the adress of the http post the adress is your rasberry pi adress
     var url="192.168.1.1/messages"
 	
 
@@ -327,14 +327,15 @@ class Injections extends Simulation {
 	 		
   		}
   		
-		//if the results are valid they are sent to the leaderBoard(until we deploy our server you should comment this section)
+		//if the results are valid they are sent to the leaderBoard
 		if(resultatValid==true){
 
 			println("Temp d'execution:"+timeOfSimulation+" Equipe:"+teamName+" rattachement:"+teameLocation)
 
   			val password=scala.io.StdIn.readLine("entrez le mot de passe pour valider le résultat?: ")
         	 	
-        	 	val urlLeaderBoard="I should put my leaderboard here to be changed for the people to be able to send their results"
+        	 	//the leader board is up
+        	 	val urlLeaderBoard="http://concoursiot.northeurope.cloudapp.azure.com/results"
 
         	 	val post = new HttpPost(urlLeaderBoard)
         		val client = HttpClientBuilder.create().build()
