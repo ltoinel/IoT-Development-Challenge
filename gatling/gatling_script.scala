@@ -286,14 +286,15 @@ class Injections extends Simulation {
 
   		println("la simulation est finie traitement en cours...")
   		//this function retreives the values of a map made from a json object
-  		def show(x: Option[Any],b:String) = x match {
-      		case Some(m: Map[String, Any]) => m(b) match{
-      		case s: String => s
-      		case i: Int => i
-      		case d: Double => d
-      		}
+  		def show(x: Option[Any],sensorTypeIndex:Int,c:String) = x match {
+  			
+      			case Some(m: List[Map[String, Any]]) => (m(b))(c) match{
+      				case s: String => s
+      				case i: Int => i
+      				case d: Double => d
+      			}
 
-      		case None =>
+      			case None =>
    		}
   		
   		//total time of the simulation in nanoseconds
@@ -302,24 +303,24 @@ class Injections extends Simulation {
 
 		//the results checker
 		var resultatValid=true
-
-  		for( a <- 1 to 10){
+		
+		//this is the url of the synthesis get method that sends a synthesis object containing 10 sensor types results
+		val urlSyhtesis ="192.168.1.1/synthesis"
   			
-  			//this is the url of the synthesis get method that sends a synthesis object for each sensor Type server 
-  			val urlSyhtesis ="192.168.1.1/synthesis?sensorType="+a.toString()
-  			
-  			val result = scala.io.Source.fromURL(urlSyhtesis)
+  		val result = scala.io.Source.fromURL(urlSyhtesis)
 
-  			val SynthesisJson = scala.util.parsing.json.JSON.parseFull(result.mkString)
+  		val SynthesisJson = scala.util.parsing.json.JSON.parseFull(result.mkString)
+  		
+  		for( a <- 0 to 9){
 
-	 		if(show(SynthesisJson,"minValue")==minValues(a-1) && 
-	 		   show(SynthesisJson,"maxValue")==maxValues(a-1) && 
-	 		   show(SynthesisJson,"mediumValue")==avrgeValues(a-1) ){
+	 		if(show(SynthesisJson,a,"minValue")==minValues(a) && 
+	 		   show(SynthesisJson,a,"maxValue")==maxValues(a) && 
+	 		   show(SynthesisJson,a,"mediumValue")==avrgeValues(a) ){
 
-	 				println(show(SynthesisJson,"sensorType")+"results are valid")
+	 				println("les résultats du sensorType"+show(SynthesisJson,a,"sensorType")+"sont valides")
 	 				
 	 		}else{
-	 				println(show(SynthesisJson,"sensorType")+"les résultats ne sont pas valide!!!!")
+	 				println("les résultats du sensorType"+show(SynthesisJson,a,"sensorType")+"ne sont pas valides!!!!")
 	 				resultatValid=false
 
 	 		}
