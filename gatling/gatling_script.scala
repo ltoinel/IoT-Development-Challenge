@@ -48,7 +48,7 @@ class Injections extends Simulation {
 	//this array contains the average of all the values sent to each sensorType
 	var avrgeValues = Array(0,0,0,0,0,0,0,0,0,0)
 	//the number of messages sent by a single injector 
-	var numberOfMsgs = 10 000
+	var numberOfMsgs = 10000
 
 
 	val httpProtocol = http
@@ -61,7 +61,7 @@ class Injections extends Simulation {
 		"Upgrade-Insecure-Requests" -> "1")
 
     //this is the adress of the http post you should put your local server
-    var url="you should put the adress of your server here"+"/messages"
+    var url="192.168.1.1/messages"
 	
 
 	//the Date formatter who makes the date on the DateTime RFC3339
@@ -71,7 +71,7 @@ class Injections extends Simulation {
 
 	//the simulation start in nano seconds
 	var simulationStartTime=0.0
-	the simulation end in nano seconds
+	//the simulation end in nano seconds
 	var simulationEndTime=0.0
 	//the name of your team
 	var teamName=""
@@ -82,7 +82,7 @@ class Injections extends Simulation {
 
 	//unique Id generator for each message sent
 	def generateId():String={
-		UUID.randomUUID().toString()+UUID.randomUUID().toString()
+		UUID.randomUUID().toString().replaceAll("-", "")+UUID.randomUUID().toString().replaceAll("-", "")
 	}
     
     //generate random numbers and keep the min the max and the average 
@@ -128,7 +128,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 						                      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"1",
+								      "sensorType":1,
 								      "value":""""+generateNum(0)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -141,7 +141,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"2",
+								      "sensorType":2,
 								      "value":""""+generateNum(1)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -154,7 +154,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"3",
+								      "sensorType":3,
 								      "value":""""+generateNum(2)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -169,7 +169,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"4",
+								      "sensorType":4,
 								      "value":""""+generateNum(3)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -183,7 +183,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"5",
+								      "sensorType":5,
 								      "value":""""+generateNum(4)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -196,7 +196,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"6",
+								      "sensorType":6,
 								      "value":""""+generateNum(5)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -209,7 +209,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"7",
+								      "sensorType":7,
 								      "value":""""+generateNum(6)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -222,7 +222,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"8",
+								      "sensorType":8,
 								      "value":""""+generateNum(7)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -236,7 +236,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"9",
+								      "sensorType":9,
 								      "value":""""+generateNum(8)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -249,7 +249,7 @@ class Injections extends Simulation {
 					.post(url)
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
-								      "sensorType":"10",
+								      "sensorType":10,
 								      "value":""""+generateNum(9)+"""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
@@ -286,14 +286,15 @@ class Injections extends Simulation {
 
   		println("la simulation est finie traitement en cours...")
   		//this function retreives the values of a map made from a json object
-  		def show(x: Option[Any],b:String) = x match {
-      		case Some(m: Map[String, Any]) => m(b) match{
-      		case s: String => s
-      		case i: Int => i
-      		case d: Double => d
-      		}
+  		def show(x: Option[Any],sensorTypeIndex:Int,c:String) = x match {
+  			
+      			case Some(m: List[Map[String, Any]]) => (m(b))(c) match{
+      				case s: String => s
+      				case i: Int => i
+      				case d: Double => d
+      			}
 
-      		case None =>
+      			case None =>
    		}
   		
   		//total time of the simulation in nanoseconds
@@ -302,31 +303,31 @@ class Injections extends Simulation {
 
 		//the results checker
 		var resultatValid=true
-
-  		for( a <- 1 to 10){
+		
+		//this is the url of the synthesis get method that sends a synthesis object containing 10 sensor types results
+		val urlSyhtesis ="192.168.1.1/synthesis"
   			
-  			//this is the url of the synthesis get method that sends a synthesis object for each sensor Type server 
-  			val urlSyhtesis ="yourserver" +"/synthesis?sensorType="+a.toString()
-  			
-  			val result = scala.io.Source.fromURL(urlSyhtesis)
+  		val result = scala.io.Source.fromURL(urlSyhtesis)
 
-  			val SynthesisJson = scala.util.parsing.json.JSON.parseFull(result.mkString)
+  		val SynthesisJson = scala.util.parsing.json.JSON.parseFull(result.mkString)
+  		
+  		for( a <- 0 to 9){
 
-	 		if(show(SynthesisJson,"minValue")==minValues(a-1) && 
-	 		   show(SynthesisJson,"maxValue")==maxValues(a-1) && 
-	 		   show(SynthesisJson,"mediumValue")==avrgeValues(a-1) ){
+	 		if(show(SynthesisJson,a,"minValue")==minValues(a) && 
+	 		   show(SynthesisJson,a,"maxValue")==maxValues(a) && 
+	 		   show(SynthesisJson,a,"mediumValue")==avrgeValues(a) ){
 
-	 				println(show(SynthesisJson,"sensorType")+"results are valid")
+	 				println("les résultats du sensorType"+show(SynthesisJson,a,"sensorType")+"sont valides")
 	 				
 	 		}else{
-	 				println(show(SynthesisJson,"sensorType")+"les résultats ne sont pas valide!!!!")
+	 				println("les résultats du sensorType"+show(SynthesisJson,a,"sensorType")+"ne sont pas valides!!!!")
 	 				resultatValid=false
 
 	 		}
 	 		
   		}
   		
-		//if the results are valid they are sent to the leaderBoard
+		//if the results are valid they are sent to the leaderBoard(until we deploy our server you should comment this section)
 		if(resultatValid==true){
 
 			println("Temp d'execution:"+timeOfSimulation+" Equipe:"+teamName+" rattachement:"+teameLocation)
