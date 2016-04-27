@@ -290,7 +290,7 @@ class Injections extends Simulation {
   		//this function retreives the values of a map made from a json object
   		def show(x: Option[Any],sensorTypeIndex:Int,c:String) = x match {
   			
-      			case Some(m: List[Map[String, Any]]) => (m(b))(c) match{
+      			case Some(m: List[Map[String, Any]]) => (m(sensorTypeIndex))(c) match{
       				case s: String => s
       				case i: Int => i
       				case d: Double => d
