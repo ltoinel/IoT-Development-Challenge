@@ -75,6 +75,8 @@ class Injections extends Simulation {
 	var simulationEndTime=0.0
 	//the name of your team
 	var teamName=""
+	//the members of the team
+	var teamMembers=""
 	//your location (Nantes, Paris, Brest etc...)
 	var teameLocation=""
 
@@ -343,6 +345,7 @@ class Injections extends Simulation {
                 	post.setEntity(new StringEntity("""{"teamName":""""+teamName+"""",
                 					    "time":""""+timeOfSimulation+"""",
                 					    "location":""""+teameLocation+"""",
+                					    "teamMembers":""""+teamMembers+"""",
                 					    "password":""""+password+""""}"""))
 
                 	val response = client.execute(post)
