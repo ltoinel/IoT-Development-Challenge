@@ -46,7 +46,7 @@ class Injections extends Simulation {
 	//this array contains the minimum value sent for each sensorType
 	var minValues = Array(0,0,0,0,0,0,0,0,0,0)
 	//this array contains the average of all the values sent to each sensorType
-	var avrgeValues = Array(0,0,0,0,0,0,0,0,0,0)
+	var sumValues = Array(0,0,0,0,0,0,0,0,0,0)
 	//the number of messages sent by a single injector 
 	var numberOfMsgs = 10000
 
@@ -100,7 +100,7 @@ class Injections extends Simulation {
 		}
 
 		//this adds values as they are created to be able to get the average at the end of the simulation(numberOfMsgs)
-		avrgeValues(sensorTypeIndex) = avrgeValues(sensorTypeIndex) + value
+		sumValues(sensorTypeIndex) = sumValues(sensorTypeIndex) + value
 
 		return value
 
@@ -317,7 +317,7 @@ class Injections extends Simulation {
 
 	 		if(show(SynthesisJson,a,"minValue")==minValues(a) && 
 	 		   show(SynthesisJson,a,"maxValue")==maxValues(a) && 
-	 		   show(SynthesisJson,a,"mediumValue")==avrgeValues(a) ){
+	 		   show(SynthesisJson,a,"mediumValue")==(sumValues(a)/numberOfMsgs) ){
 
 	 				println("les résultats du sensorType"+show(SynthesisJson,a,"sensorType")+"sont valides")
 	 				
