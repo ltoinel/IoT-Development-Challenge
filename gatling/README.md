@@ -12,8 +12,6 @@ Il sera utilisé pour départager l'ensemble des participants du concours.
 
 ##Installation
 
-[Quickstart](http://gatling.io/docs/2.0.0-RC2/quickstart.html)
-
 Le script a besoin de certaines librairies pour pouvoir envoyer les résultats des tests:
 
 - Téléchargez les fichiers jar de HttpClient 4.5.2 [HttpComponents,HttpClient 4.5.2](https://hc.apache.org/downloads.cgi)
@@ -26,9 +24,13 @@ Le script a besoin de certaines librairies pour pouvoir envoyer les résultats d
 - Sélectionnez la classe 'Injections' en tapant son numéro.
 - Si vous souhaitez lancer le script de votre shell sur Windows : gatling.bat -s Injections (gatling.sh -s Injections)
 
-NB : N'oublier pas d'ajouter le nom de votre equipe (TeamName) et de votre site de rattachement (TeamLocation) sur le script avant de le compiler/executer le scénario d'injection.
+NB : N'oublier pas d'ajouter le nom de votre équipe (TeamName) et de votre site de rattachement (TeamLocation) sur le script avant de le compiler/executer le scénario d'injection.
 
-##Equipe de développement et de maintenance des scripts
+##Résultats
+
+L'ensemble des résultats produits sont transmis automatiquement au serveur : http://iot-contest.corp.capgemini.com
+
+##Equipe
 
 - [Benabachir Issam](https://github.com/IsBena)
 - [Pavageau Stanislas](https://github.com/StanislasCapgemini)
