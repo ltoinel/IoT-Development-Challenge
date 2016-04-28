@@ -46,13 +46,13 @@ class Injections extends Simulation {
 	//this array contains the minimum value sent for each sensorType
 	var minValues = Array(0,0,0,0,0,0,0,0,0,0)
 	//this array contains the average of all the values sent to each sensorType
-	var avrgeValues = Array(0,0,0,0,0,0,0,0,0,0)
+	var sumValues = Array(0,0,0,0,0,0,0,0,0,0)
 	//the number of messages sent by a single injector 
 	var numberOfMsgs = 10000
 
 
 	val httpProtocol = http
-		.baseURL("http://gatling.io")
+		.baseURL("http://")
 		.inferHtmlResources()
 		
 
@@ -65,7 +65,7 @@ class Injections extends Simulation {
 	
 
 	//the Date formatter who makes the date on the DateTime RFC3339
-	val formatter  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SS Z")
+	val formatter  = new java.text.SimpleDateFormat("yyyy-MM-ddThh:mm:ss.SSZ")
 		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 	
 
@@ -75,6 +75,8 @@ class Injections extends Simulation {
 	var simulationEndTime=0.0
 	//the name of your team
 	var teamName=""
+	//the members of the team
+	var teamMembers=""
 	//your location (Nantes, Paris, Brest etc...)
 	var teameLocation=""
 
@@ -98,7 +100,7 @@ class Injections extends Simulation {
 		}
 
 		//this adds values as they are created to be able to get the average at the end of the simulation(numberOfMsgs)
-		avrgeValues(sensorTypeIndex) = avrgeValues(sensorTypeIndex) + value
+		sumValues(sensorTypeIndex) = sumValues(sensorTypeIndex) + value
 
 		return value
 
@@ -129,7 +131,7 @@ class Injections extends Simulation {
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 						                      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
 								      "sensorType":1,
-								      "value":""""+generateNum(0)+"""" }""")).asJSON
+								      "value":"""+generateNum(0)+""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -142,7 +144,7 @@ class Injections extends Simulation {
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
 								      "sensorType":2,
-								      "value":""""+generateNum(1)+"""" }""")).asJSON
+								      "value":"""+generateNum(1)+""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -155,7 +157,7 @@ class Injections extends Simulation {
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
 								      "sensorType":3,
-								      "value":""""+generateNum(2)+"""" }""")).asJSON
+								      "value":"""+generateNum(2)+""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -170,7 +172,7 @@ class Injections extends Simulation {
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
 								      "sensorType":4,
-								      "value":""""+generateNum(3)+"""" }""")).asJSON
+								      "value":"""+generateNum(3)+""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -184,7 +186,7 @@ class Injections extends Simulation {
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
 								      "sensorType":5,
-								      "value":""""+generateNum(4)+"""" }""")).asJSON
+								      "value":"""+generateNum(4)+""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -197,7 +199,7 @@ class Injections extends Simulation {
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
 								      "sensorType":6,
-								      "value":""""+generateNum(5)+"""" }""")).asJSON
+								      "value":"""+generateNum(5)+""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -223,7 +225,7 @@ class Injections extends Simulation {
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
 								      "sensorType":8,
-								      "value":""""+generateNum(7)+"""" }""")).asJSON
+								      "value":"""+generateNum(7)+""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -237,7 +239,7 @@ class Injections extends Simulation {
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
 								      "sensorType":9,
-								      "value":""""+generateNum(8)+"""" }""")).asJSON
+								      "value":"""+generateNum(8)+""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)		
@@ -250,7 +252,7 @@ class Injections extends Simulation {
 					.body(StringBody(session=>"""{"id":""""+generateId()+"""",
 								      "timestamp":""""+formatter.format(Calendar.getInstance().getTime())+"""",
 								      "sensorType":10,
-								      "value":""""+generateNum(9)+"""" }""")).asJSON
+								      "value":"""+generateNum(9)+""" }""")).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)								
@@ -288,7 +290,7 @@ class Injections extends Simulation {
   		//this function retreives the values of a map made from a json object
   		def show(x: Option[Any],sensorTypeIndex:Int,c:String) = x match {
   			
-      			case Some(m: List[Map[String, Any]]) => (m(b))(c) match{
+      			case Some(m: List[Map[String, Any]]) => (m(sensorTypeIndex))(c) match{
       				case s: String => s
       				case i: Int => i
       				case d: Double => d
@@ -315,7 +317,7 @@ class Injections extends Simulation {
 
 	 		if(show(SynthesisJson,a,"minValue")==minValues(a) && 
 	 		   show(SynthesisJson,a,"maxValue")==maxValues(a) && 
-	 		   show(SynthesisJson,a,"mediumValue")==avrgeValues(a) ){
+	 		   show(SynthesisJson,a,"mediumValue")==(sumValues(a)/numberOfMsgs) ){
 
 	 				println("les résultats du sensorType"+show(SynthesisJson,a,"sensorType")+"sont valides")
 	 				
@@ -343,6 +345,7 @@ class Injections extends Simulation {
                 	post.setEntity(new StringEntity("""{"teamName":""""+teamName+"""",
                 					    "time":""""+timeOfSimulation+"""",
                 					    "location":""""+teameLocation+"""",
+                					    "teamMembers":""""+teamMembers+"""",
                 					    "password":""""+password+""""}"""))
 
                 	val response = client.execute(post)

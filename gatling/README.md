@@ -23,7 +23,7 @@ le script a besoin de certaines librairies pour pouvoir envoyer les résultats d
 ##Mode d'emploi
 
 - Vous avez qu'à lancer le gatling.bat sur Windows ou gatling.sh sur Linux et lancer la class 'Injections' en tapant son numéro.
-- Si vous voulez lancer le script de votr shell sur Windows :gatling.sh -s Injections 
+- Si vous voulez lancer le script de votre shell sur Windows :gatling.bat -s Injections (gatling.sh -s Injections)
 
 
 ##### N'oublier pas d'ajouter le nom de votre equipe (TeamName)et de votre rattachement(TeamLocation) sur le script avant de le compiler/executer
