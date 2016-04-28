@@ -65,7 +65,7 @@ class Injections extends Simulation {
 	
 
 	//the Date formatter who makes the date on the DateTime RFC3339
-	val formatter  = new java.text.SimpleDateFormat("yyyy-MM-ddThh:mm:ss.SSZ")
+	val formatter  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSZ")
 		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 	
 
