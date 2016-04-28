@@ -52,7 +52,7 @@ class Injections extends Simulation {
 
 
 	val httpProtocol = http
-		.baseURL("http://gatling.io")
+		.baseURL("http://")
 		.inferHtmlResources()
 		
 
