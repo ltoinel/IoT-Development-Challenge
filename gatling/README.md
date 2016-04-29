@@ -1,42 +1,40 @@
 # ![Gatling](http://gatling.io/images/gatling-logo.png)
 
-## Synopsis
+##Synopsis
 
-Ce script en scala/DSL inject 100 000 valeurs aléatoires vers un micro service par le biais de 10 injecteurs, de façon concurrente  
+Ce script en scala/DSL injecte 100 000 valeurs aléatoires et de façon concurrente vers un service REST par le biais de 10 injecteurs.
+Il vérifie que les valeurs injectées sont correcte en solicitant le service de vérification de la synthèse.
+Il sera utilisé pour départager l'ensemble des participants du concours.
 
-##Download
+## Téléchargement
 
-[Gatling Download](http://gatling.io/#/download)
+[Lien de téléchargement deGatling](http://gatling.io/#/download)
 
 ##Installation
 
-[Quickstart](http://gatling.io/docs/2.0.0-RC2/quickstart.html)
-
-le script a besoin de certaines librairies pour pouvoir envoyer les résultats des tests:
+Le script a besoin de certaines librairies pour pouvoir envoyer les résultats des tests:
 
 - Téléchargez les fichiers jar de HttpClient 4.5.2 [HttpComponents,HttpClient 4.5.2](https://hc.apache.org/downloads.cgi)
-
-- Ajoutez les au dossier lib de votre gatling
-
-- Déposer le fichier gatling_script.scala dans \user-files\simulations
+- Ajoutez les au dossier lib de votre gatling.
+- Déposez le fichier gatling_script.scala dans le répertoire "\user-files\simulations"
 
 ##Mode d'emploi
 
-- Vous avez qu'à lancer le gatling.bat sur Windows ou gatling.sh sur Linux et lancer la class 'Injections' en tapant son numéro.
-- Si vous voulez lancer le script de votre shell sur Windows :gatling.bat -s Injections (gatling.sh -s Injections)
+- Exécutez le script gatling.bat sur Windows ou gatling.sh sur Linux.
+- Sélectionnez la classe 'Injections' en tapant son numéro.
+- Si vous souhaitez lancer le script de votre shell sur Windows : gatling.bat -s Injections (gatling.sh -s Injections)
 
+NB : N'oublier pas d'ajouter le nom de votre équipe (TeamName) et de votre site de rattachement (TeamLocation) sur le script avant de le compiler/executer le scénario d'injection.
 
-##### N'oublier pas d'ajouter le nom de votre equipe (TeamName)et de votre rattachement(TeamLocation) sur le script avant de le compiler/executer
+##Résultats
 
-[Documentation](http://gatling.io/docs/2.0.0-RC2/index.html)
+L'ensemble des résultats produits sont transmis automatiquement au serveur : http://iot-contest.corp.capgemini.com
 
-##Team
+##Equipe
 
-[Ludovic Toinel](https://github.com/ltoinel)
-
-[Benabachir Issam](https://github.com/IsBena)
-
-[Pavageau Stanislas](https://github.com/StanislasCapgemini )
+- [Benabachir Issam](https://github.com/IsBena)
+- [Pavageau Stanislas](https://github.com/StanislasCapgemini)
+- [Ludovic Toinel](https://github.com/ltoinel)
 
 
 
