@@ -44,14 +44,27 @@ paths:
             
   /messages/synthesis:
     get:
-      description: Service fournissant une synthèse des données sur les 60 dernières minutes, minute en cours incluse. L'objet "synthesis" retourné doit être unique par type de capteur. 
+      description: Service fournissant une synthèse des données sur les x secondes passées en paramètre à partir du timestamp fourni
       responses:
         200:
-          description: successful operation.
+          description: successful operation
           schema:
             type: array
             items:
               $ref: '#/definitions/synthesis'
+      parameters:
+        - name: timestamp
+          in: query
+          type:  string
+          format: date-time
+          description: Timestamp du début de calcul de la synthèse (iso celui transmis dans les messages)
+          required: true
+        - name: duration
+          in: query
+          description: Durée pour laquelle la synthèse doit être calculée (en secondes)
+          type: integer
+          format: int32
+          required: true
                    
 definitions:
   message:
