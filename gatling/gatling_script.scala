@@ -288,7 +288,9 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 			})
 			//call and get the synthesis corresponding to the duration and timestamp
 			.exec(http(synthesisResultsCheck(sensorIndex))
-					.get("http://192.168.1.1/messages/synthesis?timestamp="+formatter.format(startTimePackage(sensorIndex))+"&duraion="+(duration(sensorIndex)/1000).toInt)
+					.get("http://192.168.1.1/messages/synthesis?timestamp="+
+					java.net.URLEncoder.encode(formatter.format(startTimePackage(sensorIndex)), "utf-8")+
+					"&duraion="+(duration(sensorIndex)/1000).toInt)
   					.check(jsonPath("$..*").findAll.saveAs(SynthesisSensorNum(sensorIndex)))
 					.headers(header)
 					.check(status.is(200)))
@@ -393,7 +395,10 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 		var resultatValid=true
 		
 		//this is the url of the synthesis get method that sends a synthesis object containing 10 sensor types results
-  		val urlSyhtesis =	"http://192.168.1.1/messages/synthesis?timestamp="+formatter.format(simulationStartTime)+"&duraion="+((timeOfSimulation/1000000000)+1).toInt
+  		val urlSyhtesis =	"http://192.168.1.1/messages/synthesis?timestamp="
+  						+java.net.URLEncoder.encode(formatter.format(simulationStartTime), "utf-8")
+  						+"&duraion="+((timeOfSimulation/1000000000)+1).toInt
+  						
   		val result = scala.io.Source.fromURL(urlSyhtesis)
 
   		//setting the json parser to return integers and doubles 
