@@ -56,7 +56,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 
 
 	//the Date formatter who makes the date on the DateTime RFC3339
-	val formatter  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSZ")
+	val formatter  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ")
 		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 	
 	//the simulation start in nano seconds
