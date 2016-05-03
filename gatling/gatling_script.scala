@@ -263,7 +263,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 
   			//time the package of messages started sending...
 			startTimePackage(sensorIndex)=Calendar.getInstance().getTimeInMillis()
-			val formatter.format(startTimePackage(sensorIndex))
 			session
 
 			})
@@ -427,7 +426,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 		//if the results are valid they are sent to the leaderBoard
 		if(resultatValid==true){
 
-			println("Temp d'execution:"+timeOfSimulation+" Equipe:"+teamName+"participant:"+teamMember+" rattachement:"+teameLocation)
+			println("Temp d'execution:"+timeOfSimulation+" Equipe:"+teamName+"participant:"+teamMembers+" rattachement:"+teameLocation)
 
   			val password=scala.io.StdIn.readLine("entrez le mot de passe pour valider le résultat?: ")
         	 	
