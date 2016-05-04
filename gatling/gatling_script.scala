@@ -298,7 +298,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 			.exec(session => {
 					//test the synthesis against the stored values 
 						if((session(SynthesisSensorNum(sensorIndex)).validate[Vector[Any]].get(getSynthesisResultIndex(sensorIndex,"minValue")))==partialminValue(sensorIndex)
-							&& session(SynthesisSensorNum(sensorIndex)).validate[Vector[Any]].get(getSynthesisResultIndex(sensorIndex,"minValue"))==partialMaxValue(sensorIndex)
+							&& session(SynthesisSensorNum(sensorIndex)).validate[Vector[Any]].get(getSynthesisResultIndex(sensorIndex,"maxValue"))==partialMaxValue(sensorIndex)
 							&& session(SynthesisSensorNum(sensorIndex)).validate[Vector[Any]].get(getSynthesisResultIndex(sensorIndex,"mediumValue"))==(partialSumValue(sensorIndex)/msgPackage)){
 					
 					//call counter max
