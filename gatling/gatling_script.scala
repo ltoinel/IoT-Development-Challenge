@@ -83,7 +83,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 	//this array contains the minimum value sent for each sensorType
 	var totalMinValues = Array(0,0,0,0,0,0,0,0,0,0)
 	//this array contains the average of all the values sent to each sensorType
-	var totalSumValues = Array(0,0,0,0,0,0,0,0,0,0)
+	var totalSumValues = Array[scala.math.BigInt](BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0))
 	
 
 
@@ -112,7 +112,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 		counterNumberGenerator(sensorTypeIndex)+=1
 
 		//this adds values as they are created to be able to get the average at the end of the simulation(msgPackage)
-		totalSumValues(sensorTypeIndex) = totalSumValues(sensorTypeIndex) + value
+		totalSumValues(sensorTypeIndex) = totalSumValues(sensorTypeIndex) + BigInt(value)
 
 		return value
 	}
@@ -168,7 +168,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 	}
 
 	//this array contains the average of all the values sent to each sensorType within a package
-	var partialSumValue = Array(0,0,0,0,0,0,0,0,0,0)
+	var partialSumValue = Array[scala.math.BigInt](BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0))
 	/**
 	 *generates the json message (including the random number)
 	 *save the minimum/the maximum and the sum 
@@ -187,7 +187,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 
 		partialMaxValue(sensorIndex)=maxNum(number,sensorIndex)
 		partialminValue(sensorIndex)=minNum(number,sensorIndex)
-		partialSumValue(sensorIndex)=partialSumValue(sensorIndex)+number
+		partialSumValue(sensorIndex)=partialSumValue(sensorIndex)+BigInt(number)
 
 		return jsonMsg
 
@@ -307,7 +307,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 					//call counter min
 					 counterMin(sensorIndex)=0
 					 //initialise la somme
-					partialSumValue(sensorIndex)=0
+					partialSumValue(sensorIndex)=BigInt(0)
 					}else{
 						//exit if results are not valid
 						System.exit(1)
