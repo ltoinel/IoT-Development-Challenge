@@ -290,7 +290,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 			.exec(http(synthesisResultsCheck(sensorIndex))
 					.get("http://192.168.1.1/messages/synthesis?timestamp="+
 					java.net.URLEncoder.encode(formatter.format(startTimePackage(sensorIndex)), "utf-8")+
-					"&duraion="+(duration(sensorIndex)/1000).toInt)
+					"&duration="+(duration(sensorIndex)/1000).toInt)
   					.check(jsonPath("$..*").findAll.saveAs(SynthesisSensorNum(sensorIndex)))
 					.headers(header)
 					.check(status.is(200)))
@@ -298,7 +298,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 			.exec(session => {
 					//test the synthesis against the stored values 
 						if((session(SynthesisSensorNum(sensorIndex)).validate[Vector[Any]].get(getSynthesisResultIndex(sensorIndex,"minValue")))==partialminValue(sensorIndex)
-							&& session(SynthesisSensorNum(sensorIndex)).validate[Vector[Any]].get(getSynthesisResultIndex(sensorIndex,"minValue"))==partialMaxValue(sensorIndex)
+							&& session(SynthesisSensorNum(sensorIndex)).validate[Vector[Any]].get(getSynthesisResultIndex(sensorIndex,"maxValue"))==partialMaxValue(sensorIndex)
 							&& session(SynthesisSensorNum(sensorIndex)).validate[Vector[Any]].get(getSynthesisResultIndex(sensorIndex,"mediumValue"))==(partialSumValue(sensorIndex)/msgPackage)){
 					
 					//call counter max
@@ -397,7 +397,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 		//this is the url of the synthesis get method that sends a synthesis object containing 10 sensor types results
   		val urlSyhtesis =	"http://192.168.1.1/messages/synthesis?timestamp="
   						+java.net.URLEncoder.encode(formatter.format(simulationStartTime), "utf-8")
-  						+"&duraion="+((timeOfSimulation/1000000000)+1).toInt
+  						+"&duration="+((timeOfSimulation/1000000000)+1).toInt
   						
   		val result = scala.io.Source.fromURL(urlSyhtesis)
 
