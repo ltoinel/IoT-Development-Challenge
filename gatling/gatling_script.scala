@@ -199,7 +199,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
   	*/
 	before {
     		println("la simulation est sur le point de commencer...")
-    		
+    		simulationStartTimeMs=Calendar.getInstance().getTimeInMillis()
     		simulationStartTime=System.nanoTime()		
   	}
 
@@ -397,7 +397,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 		
 		//this is the url of the synthesis get method that sends a synthesis object containing 10 sensor types results
   		val urlSyhtesis = "http://192.168.1.1/messages/synthesis?timestamp="
-  						.concat(java.net.URLEncoder.encode(formatter.format(simulationStartTime), "utf-8"))
+  						.concat(java.net.URLEncoder.encode(formatter.format(simulationStartTimeMs), "utf-8"))
   						.concat("&duration=")
   						.concat(""+((timeOfSimulation/1000000000)+1).toInt)
   						
