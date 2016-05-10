@@ -61,6 +61,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 	
 	//the simulation start in nano seconds
 	var simulationStartTime=0.0
+	//the simulation start in milliseconds
+	var simulationStartTimeMs=0.0
 	//the simulation end in nano seconds
 	var simulationEndTime=0.0
 	//start time for sending a package by sensor type
