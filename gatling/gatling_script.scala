@@ -287,7 +287,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 			//duration that took the package to send all the messages
 			duration(sensorIndex)=endTimePackage(sensorIndex)-startTimePackage(sensorIndex)
 			//Put parameters in session for next synthesis request
-			session.set("paramDuration", ""+(duration(sensorIndex)/1000).toInt).set("paramTimestamp", java.net.URLEncoder.encode(formatter.format(startTimePackage(sensorIndex)), "utf-8"))
+			session.set("paramDuration", ""+(duration(sensorIndex)/1000).toInt).set("paramTimestamp", formatter.format(startTimePackage(sensorIndex)))
 			})
 			//call and get the synthesis corresponding to the duration and timestamp
 			.exec(http(synthesisResultsCheck(sensorIndex))
@@ -399,7 +399,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 		
 		//this is the url of the synthesis get method that sends a synthesis object containing 10 sensor types results
   		val urlSyhtesis = "http://192.168.1.1/messages/synthesis?timestamp="
-  						.concat(java.net.URLEncoder.encode(formatter.format(simulationStartTimeMs), "utf-8"))
+  						.concat(formatter.format(simulationStartTimeMs))
   						.concat("&duration=")
   						.concat(""+((timeOfSimulation/1000000000)+1).toInt)
   						
