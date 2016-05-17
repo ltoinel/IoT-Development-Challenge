@@ -102,6 +102,6 @@ definitions:
         format: int64
         description: Valeur maximale transmise par ce capteur type de capteur.
       mediumValue:
-        type: integer
-        format: int64
+        type: number
+        format: float
         description: Valeur moyenne des données transmises par ce type de capteur arrondie à deux décimales
