@@ -67,7 +67,7 @@ import scala.reflect.runtime.universe._
 	var startTimePackage=0.0
 	//end time for sending a package by sensortype
 	var endTimePackage=0.0
-
+	var simulationStartTimeMs=0.0
 
 	/**
 	 *this method generates a unique Id  for each message sent
