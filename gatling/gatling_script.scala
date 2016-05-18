@@ -56,7 +56,7 @@ import scala.reflect.runtime.universe._
 
 
    //the Date formatter who makes the date on the DateTime RFC3339
-   val formatter  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSXXX") 
+   val formatter  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX") 
        formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 	
 	//the simulation start in nano seconds
@@ -177,7 +177,7 @@ import scala.reflect.runtime.universe._
 	 */ 
 	///json generator
 	def generateJson(sensorIndex:Int):String={
-		val formatter2  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSXXX") 
+		val formatter2  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX") 
 	   	formatter2.setTimeZone(TimeZone.getTimeZone("GMT"));
 	   	var timeNow=Calendar.getInstance().getTimeInMillis()
 		var number=generateNum(sensorIndex)
