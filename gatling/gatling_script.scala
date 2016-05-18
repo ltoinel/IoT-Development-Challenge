@@ -52,7 +52,7 @@ import scala.reflect.runtime.universe._
 	val header = Map("Accept" -> "text/html; charset=UTF-8 ","Upgrade-Insecure-Requests" -> "1")
 
     //this is the adress of the http post the adress is your rasberry pi adress
-    var url="http:///192.168.1.1/messages"
+    var url="http://192.168.1.1/messages"
 
 
    //the Date formatter who makes the date on the DateTime RFC3339
@@ -277,7 +277,7 @@ import scala.reflect.runtime.universe._
 	val scenariosBuild=scenario("injections").repeat(numOfPackages){
 		exec(ScenarioBuilder.SendMsgspackageforAllSensors())
 		.exec(http("Sensor_Synthesis_Check")
-		.get("http:///192.168.1.1/messages/synthesis")
+		.get("http://192.168.1.1/messages/synthesis")
 		.queryParam("duration", "${paramDuration}")
 		.queryParam("timestamp", "${paramTimestamp}")
   		.check(jsonPath("$..*").findAll.saveAs("Synthesis_1"))
@@ -331,7 +331,7 @@ import scala.reflect.runtime.universe._
 		var resultatValid=true
 		
 		//this is the url of the synthesis get method that sends a synthesis object containing 10 sensor types results
-  		val urlSyhtesis = "http:///192.168.1.1/messages/synthesis?timestamp="
+  		val urlSyhtesis = "http://192.168.1.1/messages/synthesis?timestamp="
   						.concat(java.net.URLEncoder.encode(formatter.format(simulationStartTimeMs), "utf-8"))
   						.concat("&duration=")
   						.concat(""+((timeOfSimulation/1000000000)+1).toInt)
