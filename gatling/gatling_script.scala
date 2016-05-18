@@ -292,7 +292,13 @@ import scala.reflect.runtime.universe._
 			&& show(Synthesisobj,a,"maxValue")==partialMaxValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)
 			&& show(Synthesisobj,a,"mediumValue")==(partialSumValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)/msgPackage).setScale(2, BigDecimal.RoundingMode.HALF_UP)){
 				println("les résultats sont valides")
-			}else{
+				//call counter max
+				counterMax(sensorIndex)=0
+				//call counter min
+				counterMin(sensorIndex)=0
+				//initialise la somme
+				partialSumValue(sensorIndex)=BigDecimal(0)
+			}else{		
 					println("les resultats sont invalides!!")
 									
 					System.exit(0)
