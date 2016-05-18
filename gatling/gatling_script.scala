@@ -28,7 +28,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import java.util.ArrayList
 import org.apache.http.message.BasicNameValuePair
 import org.apache.http.client.entity.UrlEncodedFormEntity
-
+import scala.reflect.runtime.universe._
 /** 
   *This class does the test by spraying a msgPackage x numOfPackages x 10 of http post requests to your service (/messages) Concurrently
   * verfies that your synthesis service works given a timestamp and a duration
@@ -37,7 +37,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
   * sends the results to the leaderBoard (validate if you have the password)
   */
 
-  class InjectionsAndVerifications extends Simulation {
+  class InjectionsAndVerificationsMerged extends Simulation {
 
   	//enter the name of your team
 	var teamName=""
@@ -52,23 +52,21 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 	val header = Map("Accept" -> "text/html; charset=UTF-8 ","Upgrade-Insecure-Requests" -> "1")
 
     //this is the adress of the http post the adress is your rasberry pi adress
-    var url="http://192.168.1.1/messages"
+    var url="http://localhost:8080/messages"
 
 
-	//the Date formatter who makes the date on the DateTime RFC3339
-	val formatter  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ")
-		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+   //the Date formatter who makes the date on the DateTime RFC3339
+   val formatter  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSXXX") 
+       formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 	
 	//the simulation start in nano seconds
 	var simulationStartTime=0.0
-	//the simulation start in milliseconds
-	var simulationStartTimeMs=0.0
 	//the simulation end in nano seconds
 	var simulationEndTime=0.0
 	//start time for sending a package by sensor type
-	var startTimePackage=Array(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0)
+	var startTimePackage=0.0
 	//end time for sending a package by sensortype
-	var endTimePackage=Array(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0)
+	var endTimePackage=0.0
 
 
 	/**
@@ -85,7 +83,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 	//this array contains the minimum value sent for each sensorType
 	var totalMinValues = Array(0,0,0,0,0,0,0,0,0,0)
 	//this array contains the average of all the values sent to each sensorType
-	var totalSumValues = Array[scala.math.BigInt](BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0))
+	var totalSumValues = Array[scala.math.BigDecimal](BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0))
 	
 
 
@@ -97,7 +95,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 	 *@return random value
 	 */    
     def generateNum(sensorTypeIndex:Int):Int={
-
 		val r = scala.util.Random
 		var value = r.nextInt
 		//first call 
@@ -114,7 +111,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 		counterNumberGenerator(sensorTypeIndex)+=1
 
 		//this adds values as they are created to be able to get the average at the end of the simulation(msgPackage)
-		totalSumValues(sensorTypeIndex) = totalSumValues(sensorTypeIndex) + BigInt(value)
+		totalSumValues(sensorTypeIndex) = totalSumValues(sensorTypeIndex) + BigDecimal(value)
 
 		return value
 	}
@@ -170,7 +167,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 	}
 
 	//this array contains the average of all the values sent to each sensorType within a package
-	var partialSumValue = Array[scala.math.BigInt](BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0),BigInt(0))
+	var partialSumValue = Array[scala.math.BigDecimal](BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0))
+	
 	/**
 	 *generates the json message (including the random number)
 	 *save the minimum/the maximum and the sum 
@@ -179,20 +177,21 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 	 */ 
 	///json generator
 	def generateJson(sensorIndex:Int):String={
-		var timeNow=Calendar.getInstance().getTimeInMillis()
+		val formatter2  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSXXX") 
+	   	formatter2.setTimeZone(TimeZone.getTimeZone("GMT"));
+	   	var timeNow=Calendar.getInstance().getTimeInMillis()
 		var number=generateNum(sensorIndex)
 
 		var jsonMsg="""{"id":""""+generateId()+"""",
-						"timestamp":""""+formatter.format(timeNow)+"""",
+						"timestamp":""""+formatter2.format(timeNow)+"""",
 						"sensorType":"""+(sensorIndex+1)+""",
 						"value":"""+number+""" }"""
 
 		partialMaxValue(sensorIndex)=maxNum(number,sensorIndex)
 		partialminValue(sensorIndex)=minNum(number,sensorIndex)
-		partialSumValue(sensorIndex)=partialSumValue(sensorIndex)+BigInt(number)
+		partialSumValue(sensorIndex)=partialSumValue(sensorIndex)+BigDecimal(number)
 
 		return jsonMsg
-
 	}
 
 
@@ -207,165 +206,111 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 
 
   	//the number of messages in a  package
-	var msgPackage = 100
+	var msgPackage = 10
 	//the synthesis duration of a package of tests in miliseconds
-	var duration=Array(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0)
+	var duration=0.0
+	//this function retreives the values of a map made from a json object
+   	def show(x: Option[Any],sensorTypeIndex:Int,synthesisValue:String) = x match {
+  			
+      		case Some(m: List[Map[String, Any]]) => (m(sensorTypeIndex))(synthesisValue) match{
+      			case s: String => s
+      			case i: Int => i
+      			case d: Double => d
+      		}
 
+      		case None =>
+   	}	
 	/**
 	 *this object is the scenario builder 
-	 * a scenarios sends a msgPackage to our microservice and verifies that the message was sent ...
+	 * a scenarios sends a msgPackage for all type sensors ...
 	 */ 
 	object ScenarioBuilder {
-		
-		/**
-	 	 *generates container of the synthesis result name
-		 *@param  the Index of the sensorType 
-		 *@return the name of the container
-		 */ 
-
-  		def SynthesisSensorNum(sensorIndex:Int):String={
-  			return "SynthesisSensor"+sensorIndex.toString()
-  		}
-
-  		/**
-	 	 *generates Index of the result of the synthesis
-		 *@param  the Index of the sensorType, the element needed from the synthesis("sensorType","minValue","maxValue","mediumValue")
-		 *@return the index in the session
-		 */ 
-  		def getSynthesisResultIndex(sensorIndex:Int,element:String):Int={
-
-  			val index= element match{
-  				case "sensorType"=> 1+((sensorIndex)*4)
-  				case "minValue"=> 2+((sensorIndex)*4)
-  				case "maxValue"=> 3+((sensorIndex)*4)
-  				case "mediumValue"=> 4+((sensorIndex)*4)
-  			}
-
-  			return index
-  		}
-
   		//constructs the request name depending on the injector
   		def requestName(sensorIndex:Int):String={
   			return "request_"+sensorIndex.toString()
   		}
 
-  		//constructs the synthesis request name depending on the injector
-  		def synthesisResultsCheck(sensorIndex:Int):String={
-  			return "Sensor_Synthesis_Check "+sensorIndex.toString()
-  		}
-
-
+  		//setting the json parser to return integers and doubles 
+  		scala.util.parsing.json.JSON.globalNumberParser =  {
+  		in =>
+    			try in.toInt catch { case _: NumberFormatException => in.toDouble}
+		}
   		/**
 	 	 *sends a package of messages and checks if the synthesis of the package is correct
 		 *@param  the Index of the sensorType
 		 *@return a scenario that sends a package of messages containing msgPackage + checks the synthesis 
 		 */ 
 
-  		def SendMsgsAndCHeckSynthesis(sensorIndex:Int)= exec(session=>{
-
+  		def SendMsgspackageforAllSensors()= exec(session=>{
   			//time the package of messages started sending...
-			startTimePackage(sensorIndex)=Calendar.getInstance().getTimeInMillis()
+			startTimePackage=Calendar.getInstance().getTimeInMillis()
 			session
 
 			})
-  			//send a package of messages and pause to round the time to seconds
-  			.repeat(msgPackage){  
-
-				exec(http(requestName(sensorIndex))
+  			//send a package of messages to all sensors and pause to round the time to seconds
+  			.repeat(10,"cn"){
+  				repeat(msgPackage){  
+					exec(http(session=>requestName(session("cn").as[Int]))
 					.post(url)
-					.body(StringBody(session=>generateJson(sensorIndex))).asJSON
+					.body(StringBody(session=>generateJson(session("cn").as[Int]))).asJSON
 					.headers(header)
 					.check(status.is(200))
-					)	
-
-			}.pause(1)
-
+					)
+				}.pause(1)
+  			}
 			//get the parameters of the synthesis call
 			.exec(session=>{
 			//time the package of messages finished sending...
-			endTimePackage(sensorIndex)=Calendar.getInstance().getTimeInMillis()
+			endTimePackage=Calendar.getInstance().getTimeInMillis()
 			//duration that took the package to send all the messages
-			duration(sensorIndex)=endTimePackage(sensorIndex)-startTimePackage(sensorIndex)
+			duration=endTimePackage-startTimePackage
 			//Put parameters in session for next synthesis request
-			session.set("paramDuration", ""+(duration(sensorIndex)/1000).toInt).set("paramTimestamp", java.net.URLEncoder.encode(formatter.format(startTimePackage(sensorIndex)), "utf-8"))
+			session.set("paramDuration", ""+(duration/1000).toInt).set("paramTimestamp", new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSXXX").format(startTimePackage))
 			})
-			//call and get the synthesis corresponding to the duration and timestamp
-			.exec(http(synthesisResultsCheck(sensorIndex))
-					.get("http://192.168.1.1/messages/synthesis")
-					.queryParam("duration", "${paramDuration}")
-					.queryParam("timestamp", "${paramTimestamp}")
-  					.check(jsonPath("$..*").findAll.saveAs(SynthesisSensorNum(sensorIndex)))
-					.headers(header)
-					.check(status.is(200)))
-			//check that the synthesis is correct
-			.exec(session => {
-					//test the synthesis against the stored values 
-						if((session(SynthesisSensorNum(sensorIndex)).validate[Vector[Any]].get(getSynthesisResultIndex(sensorIndex,"minValue")))==partialminValue(sensorIndex)
-							&& session(SynthesisSensorNum(sensorIndex)).validate[Vector[Any]].get(getSynthesisResultIndex(sensorIndex,"maxValue"))==partialMaxValue(sensorIndex)
-							&& session(SynthesisSensorNum(sensorIndex)).validate[Vector[Any]].get(getSynthesisResultIndex(sensorIndex,"mediumValue"))==(partialSumValue(sensorIndex)/msgPackage)){
-					
-					//call counter max
-					 counterMax(sensorIndex)=0
-					//call counter min
-					 counterMin(sensorIndex)=0
-					 //initialise la somme
-					partialSumValue(sensorIndex)=BigInt(0)
-					}else{
-						//exit if results are not valid
-						System.exit(1)
-					}
-
-					session
-					})
   	}
 
 
   	//number of packages sent by a injector
 	var numOfPackages=10
+	
+	//build de scenario to repeat numOfPackages times
+	val scenariosBuild=scenario("injections").repeat(numOfPackages){
+		exec(ScenarioBuilder.SendMsgspackageforAllSensors())
+		.exec(http("Sensor_Synthesis_Check")
+		.get("http://localhost:8080/messages/synthesis")
+		.queryParam("duration", "${paramDuration}")
+		.queryParam("timestamp", "${paramTimestamp}")
+  		.check(jsonPath("$..*").findAll.saveAs("Synthesis_1"))
+		.headers(header)
+		.check(status.is(200)))
+			//check that the synthesis is correct
+		.exec(session => {	
+			val Synthesisobj = scala.util.parsing.json.JSON.parseFull(session("Synthesis_1").validate[Vector[String]].get(0))
 
-	//build 10 scenarios that represent the 10 injectors 
-	val scenariosBuild=Array(
-
-  		scenario("injecteur 1").repeat(numOfPackages){exec(ScenarioBuilder.SendMsgsAndCHeckSynthesis(0))},
-
-  		scenario("injecteur 2").repeat(numOfPackages){exec(ScenarioBuilder.SendMsgsAndCHeckSynthesis(1))},
-
-  		scenario("injecteur 3").repeat(numOfPackages){exec(ScenarioBuilder.SendMsgsAndCHeckSynthesis(2))},
-
-  		scenario("injecteur 4").repeat(numOfPackages){exec(ScenarioBuilder.SendMsgsAndCHeckSynthesis(3))},
-
-		scenario("injecteur 5").repeat(numOfPackages){exec(ScenarioBuilder.SendMsgsAndCHeckSynthesis(4))},
-
-  		scenario("injecteur 6").repeat(numOfPackages){exec(ScenarioBuilder.SendMsgsAndCHeckSynthesis(5))},
-
-        scenario("injecteur 7").repeat(numOfPackages){exec(ScenarioBuilder.SendMsgsAndCHeckSynthesis(6))},
-
-        scenario("injecteur 8").repeat(numOfPackages){exec(ScenarioBuilder.SendMsgsAndCHeckSynthesis(7))},
-
-        scenario("injecteur 9").repeat(numOfPackages){exec(ScenarioBuilder.SendMsgsAndCHeckSynthesis(8))},
-
-        scenario("injecteur 10").repeat(numOfPackages){exec(ScenarioBuilder.SendMsgsAndCHeckSynthesis(9))}
-  		)
+			for( a <- 0 to 9){
+			if(show(Synthesisobj,a,"minValue")==partialminValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)
+			&& show(Synthesisobj,a,"maxValue")==partialMaxValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)
+			&& show(Synthesisobj,a,"mediumValue")==(partialSumValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)/msgPackage).setScale(2, BigDecimal.RoundingMode.HALF_UP)){
+				println("les résultats sont valides")
+			}else{
+					println("les resultats sont invalides!!")
+									
+					System.exit(0)
+				}
+						
+			}
+			session
+		})
+	}
 
 	/**we run the scenarios and assert that 100% 
   	*of messages were received
   	*/
-
- 	setUp(scenariosBuild(0).inject(atOnceUsers(1)),
-	  	scenariosBuild(1).inject(atOnceUsers(1)),
-	  	scenariosBuild(2).inject(atOnceUsers(1)),
-	  	scenariosBuild(3).inject(atOnceUsers(1)),
-	  	scenariosBuild(4).inject(atOnceUsers(1)),
-	  	scenariosBuild(5).inject(atOnceUsers(1)),
-	  	scenariosBuild(6).inject(atOnceUsers(1)),
-	  	scenariosBuild(7).inject(atOnceUsers(1)),
-	  	scenariosBuild(8).inject(atOnceUsers(1)),
-	  	scenariosBuild(9).inject(atOnceUsers(1)))
+ 	setUp(scenariosBuild.inject(atOnceUsers(1)))
 	  .protocols(httpProtocol)
 	  .assertions(global.successfulRequests.percent.is(100))
 
-	
-	 	/** This Bloc of code runs after the simulation
+	 /** This Bloc of code runs after the simulation
   	* the end time of the simulation 
   	*it verifies that the total  synthesis is correct
   	* and sends the results to the leaderBoard
@@ -378,18 +323,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 
   		println("la simulation est finie traitement en cours...")
 
-  		//this function retreives the values of a map made from a json object
-   		def show(x: Option[Any],sensorTypeIndex:Int,synthesisValue:String) = x match {
-  			
-      			case Some(m: List[Map[String, Any]]) => (m(sensorTypeIndex))(synthesisValue) match{
-      				case s: String => s
-      				case i: Int => i
-      				case d: Double => d
-      			}
-
-      			case None =>
-   		}
-  		
   		//total time of the simulation in nanoseconds
   		val timeOfSimulation=simulationEndTime-simulationStartTime
 
@@ -398,39 +331,31 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 		var resultatValid=true
 		
 		//this is the url of the synthesis get method that sends a synthesis object containing 10 sensor types results
-  		val urlSyhtesis = "http://192.168.1.1/messages/synthesis?timestamp="
+  		val urlSyhtesis = "http://localhost:8080/messages/synthesis?timestamp="
   						.concat(java.net.URLEncoder.encode(formatter.format(simulationStartTimeMs), "utf-8"))
   						.concat("&duration=")
   						.concat(""+((timeOfSimulation/1000000000)+1).toInt)
   						
   		val result = scala.io.Source.fromURL(urlSyhtesis)
 
-  		//setting the json parser to return integers and doubles 
-  		scala.util.parsing.json.JSON.globalNumberParser =  {
-  		in =>
-    			try in.toInt catch { case _: NumberFormatException => in.toDouble}
-		}
-
   		val SynthesisJson = scala.util.parsing.json.JSON.parseFull(result.mkString)
 
   		
-		
-  		
   		for( a <- 0 to 9){
+		 	if(show(SynthesisJson,a,"minValue")==totalMinValues((show(SynthesisJson,a,"sensorType")).asInstanceOf[Int]-1)
+			&& show(SynthesisJson,a,"maxValue")==totalMaxValues((show(SynthesisJson,a,"sensorType")).asInstanceOf[Int]-1)
+			&& show(SynthesisJson,a,"mediumValue")==(totalSumValues((show(SynthesisJson,a,"sensorType")).asInstanceOf[Int]-1)/msgPackage).setScale(2, BigDecimal.RoundingMode.HALF_UP)){
 
-	 		if(show(SynthesisJson,a,"minValue")==totalMinValues(a) && 
-	 		   show(SynthesisJson,a,"maxValue")==totalMaxValues(a) && 
-	 		   show(SynthesisJson,a,"mediumValue")==(totalSumValues(a)/(msgPackage*numOfPackages)) ){
+				println("les résultats sont valides")
 
-	 				println("les résultats du sensorType"+show(SynthesisJson,a,"sensorType")+"sont valides")
-	 				
-	 		}else{
-	 				println("les résultats du sensorType"+show(SynthesisJson,a,"sensorType")+"ne sont pas valides!!!!")
-	 				resultatValid=false
-
-	 		}
-	 		
-  		}
+			}else{
+				println("les resultats sont invalides!!")
+				resultatValid=false
+				System.exit(1)
+			}
+						
+		}
+		
   		
 		//if the results are valid they are sent to the leaderBoard
 		if(resultatValid==true){
