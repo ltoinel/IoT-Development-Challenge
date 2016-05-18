@@ -37,7 +37,7 @@ import scala.reflect.runtime.universe._
   * sends the results to the leaderBoard (validate if you have the password)
   */
 
-  class InjectionsAndVerificationsMerged extends Simulation {
+  class InjectionsAndVerificationsTest extends Simulation {
 
   	//enter the name of your team
 	var teamName=""
@@ -55,18 +55,19 @@ import scala.reflect.runtime.universe._
     var url="http://192.168.1.1/messages"
 
 
-   //the Date formatter who makes the date on the DateTime RFC3339
-   val formatter  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSXXX") 
-       formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+	//the Date formatter who makes the date on the DateTime RFC3339
+	val formatter  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ") 
+		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 	
 	//the simulation start in nano seconds
 	var simulationStartTime=0.0
 	//the simulation end in nano seconds
 	var simulationEndTime=0.0
 	//start time for sending a package by sensor type
-	var startTimePackage=0.0
+	var startTimePackage=Array(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0)
 	//end time for sending a package by sensortype
-	var endTimePackage=0.0
+	var endTimePackage=Array(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0)
+	//the simulation end in seconds
 	var simulationStartTimeMs=0.0
 
 	/**
@@ -83,7 +84,10 @@ import scala.reflect.runtime.universe._
 	//this array contains the minimum value sent for each sensorType
 	var totalMinValues = Array(0,0,0,0,0,0,0,0,0,0)
 	//this array contains the average of all the values sent to each sensorType
-	var totalSumValues = Array[scala.math.BigDecimal](BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0))
+	var totalSumValues = Array[scala.math.BigDecimal](
+		BigDecimal(0),BigDecimal(0),BigDecimal(0),
+		BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),
+		BigDecimal(0),BigDecimal(0),BigDecimal(0))
 	
 
 
@@ -95,6 +99,7 @@ import scala.reflect.runtime.universe._
 	 *@return random value
 	 */    
     def generateNum(sensorTypeIndex:Int):Int={
+
 		val r = scala.util.Random
 		var value = r.nextInt
 		//first call 
@@ -167,8 +172,10 @@ import scala.reflect.runtime.universe._
 	}
 
 	//this array contains the average of all the values sent to each sensorType within a package
-	var partialSumValue = Array[scala.math.BigDecimal](BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0))
-	
+	var partialSumValue = Array[scala.math.BigDecimal](
+		BigDecimal(0),BigDecimal(0),BigDecimal(0),
+		BigDecimal(0),BigDecimal(0),BigDecimal(0),BigDecimal(0),
+		BigDecimal(0),BigDecimal(0),BigDecimal(0))
 	/**
 	 *generates the json message (including the random number)
 	 *save the minimum/the maximum and the sum 
@@ -177,9 +184,10 @@ import scala.reflect.runtime.universe._
 	 */ 
 	///json generator
 	def generateJson(sensorIndex:Int):String={
-		val formatter2  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSXXX") 
-	   	formatter2.setTimeZone(TimeZone.getTimeZone("GMT"));
-	   	var timeNow=Calendar.getInstance().getTimeInMillis()
+		val formatter2  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ") 
+		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+		var timeNow=Calendar.getInstance().getTimeInMillis()
 		var number=generateNum(sensorIndex)
 
 		var jsonMsg="""{"id":""""+generateId()+"""",
@@ -192,6 +200,7 @@ import scala.reflect.runtime.universe._
 		partialSumValue(sensorIndex)=partialSumValue(sensorIndex)+BigDecimal(number)
 
 		return jsonMsg
+
 	}
 
 
@@ -208,115 +217,179 @@ import scala.reflect.runtime.universe._
   	//the number of messages in a  package
 	var msgPackage = 10
 	//the synthesis duration of a package of tests in miliseconds
-	var duration=0.0
+	var duration=Array(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0)
 	//this function retreives the values of a map made from a json object
-   	def show(x: Option[Any],sensorTypeIndex:Int,synthesisValue:String) = x match {
+   		def show(x: Option[Any],sensorTypeIndex:Int,synthesisValue:String) = x match {
   			
-      		case Some(m: List[Map[String, Any]]) => (m(sensorTypeIndex))(synthesisValue) match{
-      			case s: String => s
-      			case i: Int => i
-      			case d: Double => d
-      		}
+      			case Some(m: List[Map[String, Any]]) => (m(sensorTypeIndex))(synthesisValue) match{
+      				case s: String => s
+      				case i: Int => i
+      				case d: Double => d
+      			}
 
-      		case None =>
-   	}	
+      			case None =>
+   		}	
+
+   		def size(x: Option[Any]) = x match {
+  			
+      			case Some(m: List[Map[String, Any]]) => m.size
+
+      			case None =>
+   		}
 	/**
 	 *this object is the scenario builder 
 	 * a scenarios sends a msgPackage for all type sensors ...
 	 */ 
 	object ScenarioBuilder {
+  		
+  		def SynthesisSensorNum(sensorIndex:Int):String={
+  			return "SynthesisSensor"+sensorIndex.toString()
+  		}
   		//constructs the request name depending on the injector
   		def requestName(sensorIndex:Int):String={
   			return "request_"+sensorIndex.toString()
   		}
+  		/*
+  		def timeName(sensorIndex:Int):String={
+  			return "paramTimestamp"+sensorIndex.toString()
+  		}
+
+  		def durationName(sensorIndex:Int):String={
+  			return "paramDuration"+sensorIndex.toString()
+  		}*/
 
   		//setting the json parser to return integers and doubles 
   		scala.util.parsing.json.JSON.globalNumberParser =  {
   		in =>
     			try in.toInt catch { case _: NumberFormatException => in.toDouble}
 		}
+
   		/**
 	 	 *sends a package of messages and checks if the synthesis of the package is correct
 		 *@param  the Index of the sensorType
 		 *@return a scenario that sends a package of messages containing msgPackage + checks the synthesis 
 		 */ 
 
-  		def SendMsgspackageforAllSensors()= exec(session=>{
+  		def SendMsgspackage(sensorIndex:Int)= exec(session=>{
   			//time the package of messages started sending...
-			startTimePackage=Calendar.getInstance().getTimeInMillis()
+			startTimePackage(sensorIndex)=Calendar.getInstance().getTimeInMillis()
 			session
 
 			})
   			//send a package of messages to all sensors and pause to round the time to seconds
-  			.repeat(10,"cn"){
-  				repeat(msgPackage){  
-					exec(http(session=>requestName(session("cn").as[Int]))
+  				.repeat(msgPackage){  
+				exec(http(session=>requestName(sensorIndex+1))
 					.post(url)
-					.body(StringBody(session=>generateJson(session("cn").as[Int]))).asJSON
+					.body(StringBody(session=>generateJson(sensorIndex))).asJSON
 					.headers(header)
 					.check(status.is(200))
 					)
+
 				}.pause(1)
-  			}
 			//get the parameters of the synthesis call
 			.exec(session=>{
 			//time the package of messages finished sending...
-			endTimePackage=Calendar.getInstance().getTimeInMillis()
+			endTimePackage(sensorIndex)=Calendar.getInstance().getTimeInMillis()
 			//duration that took the package to send all the messages
-			duration=endTimePackage-startTimePackage
+			duration(sensorIndex)=endTimePackage(sensorIndex)-startTimePackage(sensorIndex)
+			val prdr= "paramDuration"+(sensorIndex+1).toString()
+			val prtm="paramTimestamp"+(sensorIndex+1).toString()
 			//Put parameters in session for next synthesis request
-			session.set("paramDuration", ""+(duration/1000).toInt).set("paramTimestamp", new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSXXX").format(startTimePackage))
+			session.set(prdr, ""+(duration(sensorIndex)/1000).toInt).set(prtm, new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ").format(startTimePackage(sensorIndex)))
 			})
+			
+			def scenariosVerifier(sensorIndex:Int)=exec(
+  					repeat(numOfPackages){
+					exec(ScenarioBuilder.SendMsgspackage(sensorIndex))
+					.exec(http("Sensor_Synthesis_Check")
+					.get("http://192.168.1.1/messages/synthesis")
+					.queryParam("duration", session=>session("paramDuration"+(sensorIndex+1).toString()).validate[String])
+					.queryParam("timestamp", session=>session("paramTimestamp"+(sensorIndex+1).toString()).validate[String])
+  					.check(jsonPath("$..*").findAll.saveAs(SynthesisSensorNum(sensorIndex+1)))
+					.headers(header)
+					.check(status.is(200)))
+			//check that the synthesis is correct
+			.exec(session => {	
+						val Synthesisobj = scala.util.parsing.json.JSON.parseFull(session(SynthesisSensorNum(sensorIndex+1)).validate[Vector[String]].get(0))
+						println(Synthesisobj)
+						for( a <- 0 to size(Synthesisobj).asInstanceOf[Int]-1){
+							if((show(Synthesisobj,a,"sensorType").asInstanceOf[Int]==sensorIndex+1)){
+								if(show(Synthesisobj,a,"minValue").asInstanceOf[Int]==partialminValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)
+								 && show(Synthesisobj,a,"maxValue").asInstanceOf[Int]==partialMaxValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)
+							 	&& show(Synthesisobj,a,"mediumValue").asInstanceOf[Double]==(partialSumValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)/msgPackage).setScale(2, BigDecimal.RoundingMode.HALF_UP)
+							 	){
+								
+								println("les résultats sont valides"+(show(Synthesisobj,a,"sensorType")))
+								//call counter max
+ 								counterMax(sensorIndex)=0
+ 								//call counter min
+ 								counterMin(sensorIndex)=0
+ 								//initialise la somme
+ 								partialSumValue(sensorIndex)=BigDecimal(0)
+
+								}else{
+
+									println("les resultats sont invalides!!")
+									println((show(Synthesisobj,a,"sensorType")))
+									println(partialminValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1))
+									//System.exit(1)
+								}
+							}
+						
+						
+						}
+						
+						
+
+					session
+					})
+		})
+			
   	}
 
 
   	//number of packages sent by a injector
 	var numOfPackages=10
-	
-	//build de scenario to repeat numOfPackages times
-	val scenariosBuild=scenario("injections").repeat(numOfPackages){
-		exec(ScenarioBuilder.SendMsgspackageforAllSensors())
-		.exec(http("Sensor_Synthesis_Check")
-		.get("http://192.168.1.1/messages/synthesis")
-		.queryParam("duration", "${paramDuration}")
-		.queryParam("timestamp", "${paramTimestamp}")
-  		.check(jsonPath("$..*").findAll.saveAs("Synthesis_1"))
-		.headers(header)
-		.check(status.is(200)))
-			//check that the synthesis is correct
-		.exec(session => {	
-			val Synthesisobj = scala.util.parsing.json.JSON.parseFull(session("Synthesis_1").validate[Vector[String]].get(0))
 
-			for( a <- 0 to 9){
-			if(show(Synthesisobj,a,"minValue")==partialminValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)
-			&& show(Synthesisobj,a,"maxValue")==partialMaxValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)
-			&& show(Synthesisobj,a,"mediumValue")==(partialSumValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)/msgPackage).setScale(2, BigDecimal.RoundingMode.HALF_UP)){
-				println("les résultats sont valides")
-				//call counter max
-				counterMax(sensorIndex)=0
-				//call counter min
-				counterMin(sensorIndex)=0
-				//initialise la somme
-				partialSumValue(sensorIndex)=BigDecimal(0)
-			}else{		
-					println("les resultats sont invalides!!")
-									
-					System.exit(0)
-				}
-						
-			}
-			session
-		})
-	}
+//build 10 scenarios that represent the 10 injectors 
+	val scenariosBuild=Array(
 
-	/**we run the scenarios and assert that 100% 
-  	*of messages were received
-  	*/
- 	setUp(scenariosBuild.inject(atOnceUsers(1)))
+  		scenario("injecteur 1").exec(ScenarioBuilder.scenariosVerifier(0)),
+
+  		scenario("injecteur 2").exec(ScenarioBuilder.scenariosVerifier(1)),
+
+  		scenario("injecteur 3").exec(ScenarioBuilder.scenariosVerifier(2)),
+
+  		scenario("injecteur 4").exec(ScenarioBuilder.scenariosVerifier(3)),
+
+		scenario("injecteur 5").exec(ScenarioBuilder.scenariosVerifier(4)),
+
+  		scenario("injecteur 6").exec(ScenarioBuilder.scenariosVerifier(5)),
+
+        scenario("injecteur 7").exec(ScenarioBuilder.scenariosVerifier(6)),
+
+        scenario("injecteur 8").exec(ScenarioBuilder.scenariosVerifier(7)),
+
+        scenario("injecteur 9").exec(ScenarioBuilder.scenariosVerifier(8)),
+
+        scenario("injecteur 10").exec(ScenarioBuilder.scenariosVerifier(9))
+  		) 
+
+setUp(scenariosBuild(0).inject(atOnceUsers(1)),
+	  	scenariosBuild(1).inject(atOnceUsers(1)),
+	  	scenariosBuild(2).inject(atOnceUsers(1)),
+	  	scenariosBuild(3).inject(atOnceUsers(1)),
+	  	scenariosBuild(4).inject(atOnceUsers(1)),
+	  	scenariosBuild(5).inject(atOnceUsers(1)),
+	  	scenariosBuild(6).inject(atOnceUsers(1)),
+	  	scenariosBuild(7).inject(atOnceUsers(1)),
+	  	scenariosBuild(8).inject(atOnceUsers(1)),
+	  	scenariosBuild(9).inject(atOnceUsers(1)))
 	  .protocols(httpProtocol)
-	  .assertions(global.successfulRequests.percent.is(100))
+	  .assertions(global.successfulRequests.percent.is(100)) 
 
-	 /** This Bloc of code runs after the simulation
+	
+	 	/** This Bloc of code runs after the simulation
   	* the end time of the simulation 
   	*it verifies that the total  synthesis is correct
   	* and sends the results to the leaderBoard
@@ -329,6 +402,8 @@ import scala.reflect.runtime.universe._
 
   		println("la simulation est finie traitement en cours...")
 
+  		
+  		
   		//total time of the simulation in nanoseconds
   		val timeOfSimulation=simulationEndTime-simulationStartTime
 
@@ -344,24 +419,29 @@ import scala.reflect.runtime.universe._
   						
   		val result = scala.io.Source.fromURL(urlSyhtesis)
 
+  		
+
   		val SynthesisJson = scala.util.parsing.json.JSON.parseFull(result.mkString)
 
   		
-  		for( a <- 0 to 9){
-		 	if(show(SynthesisJson,a,"minValue")==totalMinValues((show(SynthesisJson,a,"sensorType")).asInstanceOf[Int]-1)
-			&& show(SynthesisJson,a,"maxValue")==totalMaxValues((show(SynthesisJson,a,"sensorType")).asInstanceOf[Int]-1)
-			&& show(SynthesisJson,a,"mediumValue")==(totalSumValues((show(SynthesisJson,a,"sensorType")).asInstanceOf[Int]-1)/msgPackage).setScale(2, BigDecimal.RoundingMode.HALF_UP)){
 
-				println("les résultats sont valides")
+  		for( a <- 0 to size(SynthesisJson).asInstanceOf[Int]-1){
+						if(show(SynthesisJson,a,"minValue").asInstanceOf[Int]==/*123*/totalMinValues((show(SynthesisJson,a,"sensorType")).asInstanceOf[Int]-1)
+							 && show(SynthesisJson,a,"maxValue").asInstanceOf[Int]==/*123*/totalMaxValues((show(SynthesisJson,a,"sensorType")).asInstanceOf[Int]-1)
+							 && show(SynthesisJson,a,"mediumValue").asInstanceOf[Double]==/*123.11*/(totalSumValues((show(SynthesisJson,a,"sensorType")).asInstanceOf[Int]-1)/(numOfPackages*msgPackage)).setScale(2, BigDecimal.RoundingMode.HALF_UP)
+						){
 
-			}else{
-				println("les resultats sont invalides!!")
-				resultatValid=false
-				System.exit(1)
-			}
+								println("les résultats sont valides")
+
+								}else{
+									println("les resultats sont invalides!!")
+									resultatValid=false
+									System.exit(1)
+								}
 						
 		}
 		
+  		
   		
 		//if the results are valid they are sent to the leaderBoard
 		if(resultatValid==true){
