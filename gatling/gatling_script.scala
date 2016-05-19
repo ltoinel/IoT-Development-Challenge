@@ -249,14 +249,7 @@ import scala.reflect.runtime.universe._
   		def requestName(sensorIndex:Int):String={
   			return "request_"+sensorIndex.toString()
   		}
-  		/*
-  		def timeName(sensorIndex:Int):String={
-  			return "paramTimestamp"+sensorIndex.toString()
-  		}
-
-  		def durationName(sensorIndex:Int):String={
-  			return "paramDuration"+sensorIndex.toString()
-  		}*/
+  	
 
   		//setting the json parser to return integers and doubles 
   		scala.util.parsing.json.JSON.globalNumberParser =  {
