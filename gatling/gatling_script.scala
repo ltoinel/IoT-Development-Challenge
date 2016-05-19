@@ -215,7 +215,7 @@ import scala.reflect.runtime.universe._
 
 
   	//the number of messages in a  package
-	var msgPackage = 10
+	var msgPackage = 1000
 	//the synthesis duration of a package of tests in miliseconds
 	var duration=Array(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0)
 	//this function retreives the values of a map made from a json object
@@ -342,7 +342,7 @@ import scala.reflect.runtime.universe._
 
 
   	//number of packages sent by a injector
-	var numOfPackages=10
+	var numOfPackages=100
 
 //build 10 scenarios that represent the 10 injectors 
 	val scenariosBuild=Array(
