@@ -56,7 +56,7 @@ import scala.reflect.runtime.universe._
 
 
 	//the Date formatter who makes the date on the DateTime RFC3339
-	val formatter  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ") 
+	val formatter  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ") 
 		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 	
 	//the simulation start in nano seconds
@@ -184,7 +184,7 @@ import scala.reflect.runtime.universe._
 	 */ 
 	///json generator
 	def generateJson(sensorIndex:Int):String={
-		val formatter2  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ") 
+		val formatter2  = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ") 
 		formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
 		var timeNow=Calendar.getInstance().getTimeInMillis()
@@ -278,7 +278,7 @@ import scala.reflect.runtime.universe._
 					.check(status.is(200))
 					)
 
-				}.pause(1)
+				}
 			//get the parameters of the synthesis call
 			.exec(session=>{
 			//time the package of messages finished sending...
@@ -288,7 +288,7 @@ import scala.reflect.runtime.universe._
 			val prdr= "paramDuration"+(sensorIndex+1).toString()
 			val prtm="paramTimestamp"+(sensorIndex+1).toString()
 			//Put parameters in session for next synthesis request
-			session.set(prdr, ""+(duration(sensorIndex)/1000).toInt).set(prtm, new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ").format(startTimePackage(sensorIndex)))
+			session.set(prdr, ""+((duration(sensorIndex)/1000).toInt)+1).set(prtm, new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(startTimePackage(sensorIndex)))
 			})
 			
 			def scenariosVerifier(sensorIndex:Int)=exec(
