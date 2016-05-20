@@ -325,7 +325,7 @@ import scala.reflect.runtime.universe._
 									println("les resultats sont invalides!!")
 									println((show(Synthesisobj,a,"sensorType")))
 									println(partialminValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1))
-									//System.exit(1)
+									System.exit(1)
 								}
 							}
 						
