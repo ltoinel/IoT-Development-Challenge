@@ -304,7 +304,7 @@ import scala.reflect.runtime.universe._
 			//check that the synthesis is correct
 			.exec(session => {	
 						val Synthesisobj = scala.util.parsing.json.JSON.parseFull(session(SynthesisSensorNum(sensorIndex+1)).validate[Vector[String]].get(0))
-						println(Synthesisobj)
+						
 						for( a <- 0 to size(Synthesisobj).asInstanceOf[Int]-1){
 							if((show(Synthesisobj,a,"sensorType").asInstanceOf[Int]==sensorIndex+1)){
 								if(show(Synthesisobj,a,"minValue").asInstanceOf[Int]==partialminValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)
@@ -312,7 +312,7 @@ import scala.reflect.runtime.universe._
 							 	&& show(Synthesisobj,a,"mediumValue").asInstanceOf[Double]==(partialSumValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1)/msgPackage).setScale(2, BigDecimal.RoundingMode.HALF_UP)
 							 	){
 								
-								println("les résultats sont valides"+(show(Synthesisobj,a,"sensorType")))
+								
 								//call counter max
  								counterMax(sensorIndex)=0
  								//call counter min
@@ -323,8 +323,6 @@ import scala.reflect.runtime.universe._
 								}else{
 
 									println("les resultats sont invalides!!")
-									println((show(Synthesisobj,a,"sensorType")))
-									println(partialminValue((show(Synthesisobj,a,"sensorType")).asInstanceOf[Int]-1))
 									System.exit(1)
 								}
 							}
@@ -424,7 +422,7 @@ setUp(scenariosBuild(0).inject(atOnceUsers(1)),
 							 && show(SynthesisJson,a,"mediumValue").asInstanceOf[Double]==/*123.11*/(totalSumValues((show(SynthesisJson,a,"sensorType")).asInstanceOf[Int]-1)/(numOfPackages*msgPackage)).setScale(2, BigDecimal.RoundingMode.HALF_UP)
 						){
 
-								println("les résultats sont valides")
+								
 
 								}else{
 									println("les resultats sont invalides!!")
